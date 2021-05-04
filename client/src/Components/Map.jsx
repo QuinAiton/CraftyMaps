@@ -1,17 +1,18 @@
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import React, { useState, useRef, useCallback } from 'react';
-import ReactMapGL, { Source, Layer } from 'react-map-gl';
+import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import useStore from '../store';
-const Map = (props) => {
+const Map = () => {
   // Handles Map Configuration
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '45vh',
-    latitude: 48.427119,
-    longitude: -123.368106,
-    zoom: 11,
+    latitude: 48.447119,
+    longitude: -123.38106,
+    zoom: 10.5,
   });
+  const [showPopup, togglePopup] = React.useState(false);
 
   // brings in breweries from store
   const breweries = useStore((state) => state.breweries);
@@ -34,43 +35,48 @@ const Map = (props) => {
     [handleViewportChange]
   );
 
-  // Creates GeoJson with from Data
-  const geojson = {
-    type: 'FeatureCollection',
-    features: [],
-  };
+  // Creates markers for each Pub
+  // Only rerender markers if breweries has changed
+  const markers = React.useMemo(
+    () =>
+      breweries.map((pub) => (
+        <Marker
+          key={pub.id}
+          longitude={pub.location.lng}
+          latitude={pub.location.lat}
+        >
+          <img
+            src='https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F26%2FEucalyp-Deus_Beer.png&sp=1620152758Tbc7ce3e337ab2d6723edf7f77c6b767387120d6097f9d6cd19f62047dd78c0b0'
+            alt='beer'
+            width={viewport.zoom + 2}
+            height={viewport.zoom + 2}
+            onClick={() => togglePopup(true)}
+          />
+          {showPopup ? (
+            <Popup
+              latitude={pub.location.lat}
+              longitude={pub.location.lng}
+              closeButton={true}
+              closeOnClick={false}
+              onClose={() => togglePopup(false)}
+            >
+              <div>{pub.name}</div>
+            </Popup>
+          ) : null}
+        </Marker>
+      )),
+    [breweries]
+  );
 
-  breweries.map((pub) => {
-    geojson.features.push({
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [pub.location.lng, pub.location.lat],
-      },
-      properties: [pub],
-    });
-  });
-
-  const layerStyle = {
-    id: 'point',
-    type: 'circle',
-    paint: {
-      'circle-radius': 4,
-      'circle-color': '#007cbf',
-    },
-  };
   return (
     <ReactMapGL
       {...viewport}
       ref={mapRef}
-      mapStyle='mapbox://styles/mapbox/streets-v9'
+      mapStyle='mapbox://styles/mapbox/navigation-night-v1'
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
-      <Source id='my-data' type='geojson' data={geojson}>
-        <Layer {...layerStyle} />
-      </Source>
-
+      {markers}
       <Geocoder
         mapRef={mapRef}
         onViewportChange={handleGeocoderViewportChange}
