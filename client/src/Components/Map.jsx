@@ -2,7 +2,7 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import React, { useState, useRef, useCallback } from 'react';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
-
+import useStore from '../store';
 const Map = (props) => {
   // Handles Map Configuration
   const [viewport, setViewport] = useState({
@@ -12,6 +12,9 @@ const Map = (props) => {
     longitude: -123.368106,
     zoom: 11,
   });
+
+  // brings in breweries from store
+  const breweries = useStore((state) => state.breweries);
 
   const mapRef = useRef();
 
@@ -31,31 +34,31 @@ const Map = (props) => {
     [handleViewportChange]
   );
 
-  // // Creates GeoJson with from Data
-  // const geojson = {
-  //   type: 'FeatureCollection',
-  //   features: [],
-  // };
+  // Creates GeoJson with from Data
+  const geojson = {
+    type: 'FeatureCollection',
+    features: [],
+  };
 
-  // props.state.map((listing) => {
-  //   geojson.features.push({
-  //     type: 'Feature',
-  //     geometry: {
-  //       type: 'Point',
-  //       coordinates: listing.location.coordinates,
-  //     },
-  //     properties: [listing],
-  //   });
-  // });
+  breweries.map((pub) => {
+    geojson.features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [pub.location.lng, pub.location.lat],
+      },
+      properties: [pub],
+    });
+  });
 
-  // const layerStyle = {
-  //   id: 'point',
-  //   type: 'circle',
-  //   paint: {
-  //     'circle-radius': 4,
-  //     'circle-color': '#007cbf',
-  //   },
-  // };
+  const layerStyle = {
+    id: 'point',
+    type: 'circle',
+    paint: {
+      'circle-radius': 4,
+      'circle-color': '#007cbf',
+    },
+  };
   return (
     <ReactMapGL
       {...viewport}
@@ -64,9 +67,9 @@ const Map = (props) => {
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
-      {/* <Source id='my-data' type='geojson' data={geojson}>
+      <Source id='my-data' type='geojson' data={geojson}>
         <Layer {...layerStyle} />
-      </Source> */}
+      </Source>
 
       <Geocoder
         mapRef={mapRef}
