@@ -12,7 +12,6 @@ const Map = () => {
     longitude: -123.38106,
     zoom: 10.5,
   });
-  const [showPopup, togglePopup] = React.useState(false);
 
   // brings in breweries from store
   const breweries = useStore((state) => state.breweries);
@@ -50,19 +49,7 @@ const Map = () => {
             alt='beer'
             width={viewport.zoom + 2}
             height={viewport.zoom + 2}
-            onClick={() => togglePopup(true)}
           />
-          {showPopup ? (
-            <Popup
-              latitude={pub.location.lat}
-              longitude={pub.location.lng}
-              closeButton={true}
-              closeOnClick={false}
-              onClose={() => togglePopup(false)}
-            >
-              <div>{pub.name}</div>
-            </Popup>
-          ) : null}
         </Marker>
       )),
     [breweries]
@@ -77,12 +64,12 @@ const Map = () => {
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       {markers}
-      <Geocoder
+      {/* <Geocoder
         mapRef={mapRef}
         onViewportChange={handleGeocoderViewportChange}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
         position='top-left'
-      />
+      /> */}
     </ReactMapGL>
   );
 };
