@@ -1,16 +1,22 @@
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import React, { useState, useRef, useCallback } from 'react';
-import ReactMapGL, { Marker } from 'react-map-gl';
+import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
 // import Geocoder from 'react-map-gl-geocoder';
 import useStore from '../store';
 import SmallNav from './SmallNav';
 import beer from './beer.svg';
 import Cards from './Cards';
+
+const geolocateControlStyle = {
+  right: 10,
+  top: 10,
+};
+
 const Map = () => {
   // Handles Map Configuration
   const [viewport, setViewport] = useState({
     width: '100vw',
-    height: '100%',
+    height: '100vh',
     latitude: 48.447119,
     longitude: -123.38106,
     zoom: 10.5,
@@ -21,6 +27,7 @@ const Map = () => {
 
   const mapRef = useRef();
 
+  // controls Locational Search
   // const handleViewportChange = useCallback(
   //   (newViewport) => setViewport(newViewport),
   //   []
@@ -51,7 +58,7 @@ const Map = () => {
         >
           <img
             src={beer}
-            alt='beer'
+            alt='beer icon'
             width={viewport.zoom + 15}
             height={viewport.zoom + 15}
           />
@@ -69,7 +76,6 @@ const Map = () => {
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       <SmallNav />
-      {/* <Header /> */}
       {markers}
       {/* <Geocoder
         mapRef={mapRef}
@@ -78,6 +84,12 @@ const Map = () => {
         position='bottom-left'
       /> */}
       <Cards />
+      <GeolocateControl
+        style={geolocateControlStyle}
+        positionOptions={{ enableHighAccuracy: true }}
+        trackUserLocation={true}
+        auto
+      />
     </ReactMapGL>
   );
 };

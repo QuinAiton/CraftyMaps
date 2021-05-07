@@ -1,6 +1,11 @@
+$primary: #ffffff;
+$secondary: #000000;
+$opacity: #ffffffc4;
 .container {
-  border: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 10px;
+  border-radius: 5px;
   margin: 5px;
+  padding: 10px;
   h1 {
     font-size: 1rem;
   }

@@ -69,7 +69,7 @@ $opacity: #ffffffc4;
 }
 
 .breweries {
-  background-color: $opacity;
+  background-color: $primary;
   position: absolute;
   left: -72%;
   height: 95vh;
@@ -81,6 +81,8 @@ $opacity: #ffffffc4;
   transform: translate(0%, 46%);
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
   border-radius: 30px;
+  scroll-behavior: smooth;
+  overflow-y: scroll;
 
   li {
     transition-delay: 2s;
