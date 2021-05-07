@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import SmallNav from './Components/SmallNav';
 import Map from './Components/Map';
 import './Styles/App.scss';
 import useStore from './store';

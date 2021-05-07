@@ -1,10 +1,9 @@
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import React, { useState, useRef, useCallback } from 'react';
-import ReactMapGL, { Marker, Popup } from 'react-map-gl';
-import Geocoder from 'react-map-gl-geocoder';
+import ReactMapGL, { Marker } from 'react-map-gl';
+// import Geocoder from 'react-map-gl-geocoder';
 import useStore from '../store';
 import SmallNav from './SmallNav';
-import Header from './Header';
 import beer from './beer.svg';
 import Cards from './Cards';
 const Map = () => {
@@ -22,21 +21,21 @@ const Map = () => {
 
   const mapRef = useRef();
 
-  const handleViewportChange = useCallback(
-    (newViewport) => setViewport(newViewport),
-    []
-  );
+  // const handleViewportChange = useCallback(
+  //   (newViewport) => setViewport(newViewport),
+  //   []
+  // );
   // handles Searchbar Component for Map
-  const handleGeocoderViewportChange = useCallback(
-    (newViewport) => {
-      const geocoderDefaultOverrides = { transitionDuration: 1000 };
-      return handleViewportChange({
-        ...newViewport,
-        ...geocoderDefaultOverrides,
-      });
-    },
-    [handleViewportChange]
-  );
+  // const handleGeocoderViewportChange = useCallback(
+  //   (newViewport) => {
+  //     const geocoderDefaultOverrides = { transitionDuration: 1000 };
+  //     return handleViewportChange({
+  //       ...newViewport,
+  //       ...geocoderDefaultOverrides,
+  //     });
+  //   },
+  //   [handleViewportChange]
+  // );
 
   // Creates markers for each Pub
   // Only rerender markers if breweries has changed
@@ -47,12 +46,14 @@ const Map = () => {
           key={pub.id}
           longitude={pub.location.lng}
           latitude={pub.location.lat}
+          offsetTop={viewport.zoom - 30}
+          offsetLeft={viewport.zoom - 30}
         >
           <img
             src={beer}
             alt='beer'
-            width={viewport.zoom + 30}
-            height={viewport.zoom + 30}
+            width={viewport.zoom + 15}
+            height={viewport.zoom + 15}
           />
         </Marker>
       )),
