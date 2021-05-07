@@ -3,11 +3,15 @@ import React, { useState, useRef, useCallback } from 'react';
 import ReactMapGL, { Marker, Popup } from 'react-map-gl';
 import Geocoder from 'react-map-gl-geocoder';
 import useStore from '../store';
+import SmallNav from './SmallNav';
+import Header from './Header';
+import beer from './beer.svg';
+import Cards from './Cards';
 const Map = () => {
   // Handles Map Configuration
   const [viewport, setViewport] = useState({
     width: '100vw',
-    height: '45vh',
+    height: '100%',
     latitude: 48.447119,
     longitude: -123.38106,
     zoom: 10.5,
@@ -45,10 +49,10 @@ const Map = () => {
           latitude={pub.location.lat}
         >
           <img
-            src='https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F26%2FEucalyp-Deus_Beer.png&sp=1620152758Tbc7ce3e337ab2d6723edf7f77c6b767387120d6097f9d6cd19f62047dd78c0b0'
+            src={beer}
             alt='beer'
-            width={viewport.zoom + 2}
-            height={viewport.zoom + 2}
+            width={viewport.zoom + 30}
+            height={viewport.zoom + 30}
           />
         </Marker>
       )),
@@ -59,17 +63,20 @@ const Map = () => {
     <ReactMapGL
       {...viewport}
       ref={mapRef}
-      mapStyle='mapbox://styles/mapbox/navigation-night-v1'
+      mapStyle='mapbox://styles/mapbox/light-v10'
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
+      <SmallNav />
+      {/* <Header /> */}
       {markers}
       {/* <Geocoder
         mapRef={mapRef}
         onViewportChange={handleGeocoderViewportChange}
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-        position='top-left'
+        position='bottom-left'
       /> */}
+      <Cards />
     </ReactMapGL>
   );
 };

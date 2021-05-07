@@ -4,8 +4,6 @@ import Map from './Components/Map';
 import './Styles/App.scss';
 import useStore from './store';
 import axios from 'axios';
-import Header from './Components/Header';
-import Cards from './Components/Cards';
 
 function App() {
   const setBreweries = useStore((state) => state.setBreweries);
@@ -20,10 +18,7 @@ function App() {
 
   return (
     <div className='App-Container'>
-      <SmallNav />
-      <Header />
       <Map />
-      <Cards />
     </div>
   );
 }
