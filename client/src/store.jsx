@@ -8,6 +8,13 @@ const useStore = create((set) => ({
     set((state) => ({
       breweries,
     })),
+  // Handles route requests
+  routes: [],
+  setRoutes: (routes) => {
+    set((state) => ({
+      routes,
+    }));
+  },
 }));
 
 export default useStore;

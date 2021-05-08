@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
-import Map from './Components/Map';
 import './Styles/App.scss';
+import { useEffect } from 'react';
 import useStore from './store';
 import axios from 'axios';
+import Navigation from './Components/Navigation';
+import Map from './Components/Map';
 
 function App() {
   const setBreweries = useStore((state) => state.setBreweries);
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <div className='App-Container'>
+      {/* <Navigation /> */}
       <Map />
     </div>
   );
