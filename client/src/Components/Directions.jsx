@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Directions = ({ step }) => {
+const Directions = ({ steps }) => {
+  console.log(steps);
   return (
     <div>
-      <h3>{step.maneuver.instruction}</h3>
+      <h3>{steps.maneuver.instruction}</h3>
     </div>
   );
 };

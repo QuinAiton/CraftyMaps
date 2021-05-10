@@ -1,6 +1,8 @@
 $primary: #ffffff;
 $secondary: #000000;
 $opacity: #ffffffc4;
+$purple: #523d9e;
+
 .container {
   height: 10vh;
   z-index: 3;
@@ -53,12 +55,12 @@ $opacity: #ffffffc4;
   }
 
   span {
+    background-color: $purple;
     display: flex;
     width: 29px;
     height: 2px;
     margin-bottom: 5px;
     position: relative;
-    background-color: $secondary;
     border-radius: 3px;
     transform-origin: 5px 0px;
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),

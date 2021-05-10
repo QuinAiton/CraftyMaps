@@ -1,7 +1,7 @@
 import React from 'react';
 import useStore from '../store';
 import CardItem from './CardItem';
-import Styles from '../Styles/Cards.module.scss';
+import Styles from '../Styles/Breweries.module.scss';
 import { BsPlusCircleFill } from 'react-icons/bs';
 
 const Cards = () => {

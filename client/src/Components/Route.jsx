@@ -1,6 +1,6 @@
 import React from 'react';
 import useStore from '../store';
-import Styles from '../Styles/Cards.module.scss';
+import Styles from '../Styles/Route.module.scss';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import Directions from './Directions';
 const Route = () => {
@@ -13,6 +13,7 @@ const Route = () => {
     });
   });
 
+  console.log(getSteps);
   return (
     <div className={Styles.container}>
       <div className={Styles.Toggle}>

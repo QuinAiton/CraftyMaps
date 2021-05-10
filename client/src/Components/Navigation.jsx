@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
 import axios from 'axios';
 import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
-import { PathLayer } from '@deck.gl/layers';
+import { PathLayer, IconLayer } from '@deck.gl/layers';
 import useStore from '../store';
-import Route from './Route';
-const geolocateControlStyle = {
-  right: 10,
-  top: 10,
-};
 
 const Navigation = () => {
-  const { routes, setRoutes } = useStore();
+  const { routes, setRoutes, breweries } = useStore();
   const [isLoading, setLoading] = useState(true);
 
   // Fetches Optimized routes
@@ -35,46 +29,71 @@ const Navigation = () => {
     return <h1>Generating Route</h1>;
   } else {
     // data needed for overlay here
-    const data = [
+    const routesData = [
       {
         name: 'Brewery Route',
-        color: [101, 250, 245],
+        color: [82, 61, 158],
         path: [...routes.trips[0].geometry.coordinates],
       },
     ];
 
-    // below, add whatever layers you need to overlay on your map
-    const layer = [
+    const markerData = [
+      {
+        name: 'Breweries',
+        coordinates: [
+          routes.waypoints[0].location[0],
+          routes.waypoints[0].location[1],
+        ],
+      },
+    ];
+    const ICON_MAPPING = {
+      marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
+    };
+
+    // adds layers to overlay on map
+    const layers = [
       new PathLayer({
         id: 'path-layer',
-        data,
+        data: routesData,
         getWidth: (data) => 2,
         getColor: (data) => data.color,
         widthMinPixels: 3,
       }),
+      new IconLayer({
+        id: 'icon-layer',
+        data: markerData,
+        pickable: true,
+        // iconAtlas and iconMapping are required
+        // getIcon: return a string
+        iconAtlas:
+          'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+        iconMapping: ICON_MAPPING,
+        getIcon: (d) => 'marker',
+        sizeScale: 10,
+        getPosition: (d) => d.coordinates,
+        getSize: (d) => 5,
+        getColor: (d) => [Math.sqrt(d.exits), 140, 0],
+      }),
     ];
 
+    // Creates initial state for Deck GL Layer
+    const initialState = {
+      width: '100vw',
+      height: '100vh',
+      latitude: routes.waypoints[0].location[1],
+      longitude: routes.waypoints[0].location[0],
+      zoom: 16,
+      pitch: 60,
+      bearing: 0,
+    };
+
     return (
-      <React.Fragment>
-        <DeckGL
-          initialViewState={{
-            width: '100vw',
-            height: '100vh',
-            latitude: 48.447119,
-            longitude: -123.38106,
-            zoom: 10.5,
-            pitch: 30,
-          }}
-          controller={true}
-          layers={layer} // layer here
-        >
-          <StaticMap
-            mapStyle='mapbox://styles/mapbox/light-v10'
-            mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-          />
-        </DeckGL>
-        <Route />
-      </React.Fragment>
+      <DeckGL initialViewState={initialState} controller={true} layers={layers}>
+        <StaticMap
+          mapStyle='mapbox://styles/mapbox/light-v10'
+          mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        />
+      </DeckGL>
     );
   }
 };
