@@ -37,15 +37,17 @@ const Navigation = () => {
       },
     ];
 
-    const markerData = [
-      {
-        name: 'Breweries',
-        coordinates: [
-          routes.waypoints[0].location[0],
-          routes.waypoints[0].location[1],
-        ],
-      },
-    ];
+    const markerData = [];
+    const breweryMarkers = routes.waypoints.map((pub) => {
+      markerData.push({
+        name: pub.name,
+        coordinates: pub.location,
+      });
+      return markerData;
+    });
+
+    console.log(markerData);
+
     const ICON_MAPPING = {
       marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
     };
