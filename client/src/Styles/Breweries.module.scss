@@ -5,7 +5,7 @@ $purple: #523d9e;
 
 .container {
   display: flex;
-  height: 50vh;
+  height: 45vh;
   z-index: 3;
   position: relative;
   a {
@@ -23,7 +23,7 @@ $purple: #523d9e;
     opacity: 0.5;
   }
   ul {
-    padding-top: 40px;
+    // padding-top: 40px;
     list-style-type: none;
   }
 }
@@ -53,7 +53,7 @@ $purple: #523d9e;
     cursor: pointer;
     opacity: 0;
     z-index: 3;
-    bottom: 59vh;
+    bottom: 39vh;
     left: 3vw;
   }
 
@@ -62,15 +62,22 @@ $purple: #523d9e;
   }
 }
 
-.toggle {
+.open {
   color: $purple;
   z-index: 1;
   position: relative;
   font-size: 3em;
-  bottom: 53vh;
+  bottom: 33vh;
   left: 3vw;
 }
-
+.close {
+  color: $purple;
+  z-index: 1;
+  position: relative;
+  font-size: 3.7em;
+  bottom: 33vh;
+  left: 2vw;
+}
 .breweries {
   background-color: $primary;
   position: absolute;
@@ -82,7 +89,7 @@ $purple: #523d9e;
   margin: 0;
   -webkit-font-smoothing: antialiased;
   transform-origin: 0% 0%;
-  transform: translate(0%, 30%);
+  transform: translate(0%, 45%);
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
   border-radius: 30px;
   scroll-behavior: smooth;

@@ -3,7 +3,7 @@ import useStore from '../store';
 import CardItem from './CardItem';
 import Styles from '../Styles/Breweries.module.scss';
 import { BsPlusCircleFill } from 'react-icons/bs';
-import { FaMinus } from 'react-icons/fa';
+import { HiMinusCircle } from 'react-icons/hi';
 const Breweries = () => {
   const [open, setOpen] = useState(false);
 
@@ -33,9 +33,9 @@ const Breweries = () => {
     <div className={Styles.container}>
       <div className={Styles.breweryToggle} onClick={() => setOpen(!open)}>
         {open ? (
-          <FaMinus className={Styles.toggle} />
+          <HiMinusCircle className={Styles.close} />
         ) : (
-          <BsPlusCircleFill className={Styles.toggle} />
+          <BsPlusCircleFill className={Styles.open} />
         )}
         <input type='checkbox' />
         <ul className={Styles.breweries}>{breweryCards}</ul>
