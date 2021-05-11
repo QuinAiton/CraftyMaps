@@ -5,7 +5,7 @@ import DeckGL from 'deck.gl';
 import { StaticMap } from 'react-map-gl';
 import { PathLayer, IconLayer } from '@deck.gl/layers';
 import useStore from '../store';
-
+import Loading from './Loading';
 const Navigation = () => {
   const { routes, setRoutes, breweries } = useStore();
   const [isLoading, setLoading] = useState(true);
@@ -26,9 +26,9 @@ const Navigation = () => {
   }, []);
 
   if (isLoading) {
-    return <h1>Generating Route</h1>;
+    return <Loading />;
   } else {
-    // data needed for overlay here
+    // Data for Route Display
     const routesData = [
       {
         name: 'Brewery Route',
@@ -37,6 +37,7 @@ const Navigation = () => {
       },
     ];
 
+    // Data for Marker Display
     const markerData = [];
     const breweryMarkers = routes.waypoints.map((pub) => {
       markerData.push({
@@ -45,8 +46,6 @@ const Navigation = () => {
       });
       return markerData;
     });
-
-    console.log(markerData);
 
     const ICON_MAPPING = {
       marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
