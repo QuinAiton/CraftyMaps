@@ -1,0 +1,119 @@
+$primary: #ffffff;
+$secondary: #000000;
+$opacity: #ffffffc4;
+$purple: #523d9e;
+
+.container {
+  height: 10vh;
+  z-index: 3;
+  width: 80%;
+  position: relative;
+  a {
+    display: flex;
+    border-radius: 50%;
+    padding: 0em 0.2em;
+    margin: 30px;
+    text-decoration: none;
+    color: $secondary;
+    font-size: 1.5em;
+    font-weight: 400;
+    transition: 200ms;
+  }
+  a:hover {
+    opacity: 0.5;
+  }
+  ul {
+    padding-top: 120px;
+    list-style-type: none;
+  }
+}
+
+.icon {
+  font-size: 1.2em;
+  margin-right: 15px;
+}
+
+.menuToggle {
+  width: 70%;
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 25px;
+  left: 25px;
+  -webkit-user-select: none;
+  user-select: none;
+
+  input {
+    display: flex;
+    width: 40px;
+    height: 32px;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+  }
+
+  span {
+    background-color: $purple;
+    display: flex;
+    width: 29px;
+    height: 2px;
+    margin-bottom: 5px;
+    position: relative;
+    border-radius: 3px;
+    transform-origin: 5px 0px;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+    z-index: 3;
+  }
+
+  span:first-child {
+    transform-origin: 0% 0%;
+  }
+  span:nth-child(3) {
+    width: 20px;
+  }
+
+  span:nth-last-child(2) {
+    transform-origin: 0% 100%;
+    width: 15px;
+  }
+
+  input:checked ~ span {
+    opacity: 1;
+    transform: rotate(45deg) translate(-3px, -1px);
+    background: $secondary;
+  }
+  input:checked ~ span:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+
+  input:checked ~ span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+    width: 29px;
+  }
+  input:checked ~ ul {
+    transform: none;
+  }
+}
+
+.menu {
+  background-color: $opacity;
+  position: absolute;
+  height: 95vh;
+  width: 100vw;
+  margin: -50px 0 0 -50px;
+  padding: 30px;
+  padding-top: 125px;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+  border-radius: 30px;
+
+  li {
+    transition-delay: 2s;
+  }
+}
