@@ -32,7 +32,6 @@ const Navigation = () => {
     const routesData = [
       {
         name: 'Brewery Route',
-        color: [82, 61, 158],
         path: [...routes.trips[0].geometry.coordinates],
       },
     ];
@@ -47,8 +46,16 @@ const Navigation = () => {
       return markerData;
     });
 
+    // Identifies how to display marker icons
     const ICON_MAPPING = {
-      marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
+      marker: {
+        x: 0,
+        y: 0,
+        width: 242,
+        height: 242,
+        anchorY: 242,
+        mask: true,
+      },
     };
 
     // adds layers to overlay on map
@@ -56,24 +63,22 @@ const Navigation = () => {
       new PathLayer({
         id: 'path-layer',
         data: routesData,
-        getWidth: (data) => 2,
-        getColor: (data) => data.color,
-        widthMinPixels: 3,
+        rounded: true,
+        getWidth: (data) => 1,
+        getColor: (data) => [82, 61, 158],
+        widthMinPixels: 2,
       }),
       new IconLayer({
         id: 'icon-layer',
         data: markerData,
-        pickable: true,
-        // iconAtlas and iconMapping are required
-        // getIcon: return a string
         iconAtlas:
-          'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+          'https://upload.wikimedia.org/wikipedia/commons/c/c4/Projet_bi%C3%A8re_logo_v2.png',
         iconMapping: ICON_MAPPING,
-        getIcon: (d) => 'marker',
-        sizeScale: 10,
-        getPosition: (d) => d.coordinates,
-        getSize: (d) => 5,
-        getColor: (d) => [Math.sqrt(d.exits), 140, 0],
+        getIcon: (data) => 'marker',
+        sizeScale: 8,
+        getPosition: (data) => data.coordinates,
+        getSize: (data) => 5,
+        getColor: (data) => [0, 130, 10],
       }),
     ];
 
