@@ -1,9 +1,10 @@
 import React, { useState, useRef, useMemo } from 'react';
+import Styles from '../Styles/Map.module.scss';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
 import useStore from '../store';
-import beer from './beer.svg';
 import Breweries from './Breweries';
+
 const geolocateControlStyle = {
   right: 10,
   top: 10,
@@ -17,11 +18,11 @@ const Map = () => {
     latitude: 48.447119,
     longitude: -123.38106,
     zoom: 10.5,
-    pitch: 30,
+    pitch: 50,
   });
+
   // brings in breweries from store
   const breweries = useStore((state) => state.breweries);
-
   // Creates markers for each Pub
   // Only rerender markers if breweries has changed
   const mapRef = useRef();
@@ -30,20 +31,21 @@ const Map = () => {
       breweries.map((pub) => (
         <Marker
           key={pub.id}
-          longitude={pub.location.lng}
-          latitude={pub.location.lat}
+          longitude={pub.coordinates[0]}
+          latitude={pub.coordinates[1]}
           offsetTop={viewport.zoom - 30}
           offsetLeft={viewport.zoom - 30}
         >
           <img
-            src={beer}
+            className={Styles.icon}
+            src={pub.icon}
             alt='beer icon'
-            width={viewport.zoom + 15}
-            height={viewport.zoom + 15}
+            width={viewport.zoom + 20}
+            height={viewport.zoom + 20}
           />
         </Marker>
       )),
-    [breweries]
+    [breweries, viewport.zoom]
   );
 
   return (
@@ -61,6 +63,7 @@ const Map = () => {
         auto
       />
       {markers}
+
       <Breweries />
     </ReactMapGL>
   );

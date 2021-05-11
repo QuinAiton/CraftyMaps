@@ -10,11 +10,15 @@ const useStore = create((set) => ({
     })),
   // Handles route requests
   routes: [],
-  setRoutes: (routes) => {
+  setRoutes: (routes) =>
     set((state) => ({
       routes,
-    }));
-  },
+    })),
+  selectedRoute: [],
+  setSelectedRoute: (selectedRoute) =>
+    set((state) => ({
+      selectedRoute,
+    })),
 }));
 
 export default useStore;

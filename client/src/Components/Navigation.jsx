@@ -23,7 +23,7 @@ const Navigation = () => {
       .catch((err) => {
         console.log('Error in Route Fetching', err);
       });
-  }, []);
+  }, [setRoutes]);
 
   if (isLoading) {
     return <Loading />;
@@ -39,7 +39,7 @@ const Navigation = () => {
 
     // Data for Marker Display
     const markerData = [];
-    const breweryMarkers = routes.waypoints.map((pub) => {
+    routes.waypoints.map((pub) => {
       markerData.push({
         name: pub.name,
         coordinates: pub.location,
