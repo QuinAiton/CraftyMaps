@@ -42,7 +42,6 @@ const Breweries = () => {
       />
     );
   });
-  console.log(selectedRoute);
   return (
     <div className={Styles.container}>
       <button className={Styles.route} onClick={handleRouteSubmit}>
