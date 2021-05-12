@@ -5,6 +5,7 @@ import Styles from '../Styles/Breweries.module.scss';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import { HiMinusCircle } from 'react-icons/hi';
 import { FaRoute } from 'react-icons/fa';
+import Link from 'react-router-dom/Link';
 
 const Breweries = () => {
   const [open, setOpen] = useState(false);
@@ -33,9 +34,11 @@ const Breweries = () => {
   });
   return (
     <div className={Styles.container}>
-      <button className={Styles.route}>
-        <FaRoute className={Styles.routeIcon} />
-      </button>
+      <Link to='/navigation'>
+        <button className={Styles.route}>
+          <FaRoute className={Styles.routeIcon} />
+        </button>
+      </Link>
       <div className={Styles.breweryToggle} onClick={() => setOpen(!open)}>
         {open ? (
           <HiMinusCircle className={Styles.close} />

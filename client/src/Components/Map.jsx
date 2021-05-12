@@ -5,6 +5,7 @@ import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
 import SmallNav from './SmallNav';
 import useStore from '../store';
 import Breweries from './Breweries';
+
 const geolocateControlStyle = {
   right: 10,
   top: 10,
