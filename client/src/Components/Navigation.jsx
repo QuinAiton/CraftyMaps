@@ -1,19 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import axios from 'axios';
 import DeckGL from 'deck.gl';
-import { StaticMap } from 'react-map-gl';
+import { StaticMap, MapContext, GeolocateControl } from 'react-map-gl';
 import { PathLayer, IconLayer } from '@deck.gl/layers';
 import useStore from '../store';
 import Loading from './Loading';
-const Navigation = () => {
-  const { routes, setRoutes, breweries } = useStore();
-  const [isLoading, setLoading] = useState(true);
+import { useLocation } from 'react-router-dom';
+import SmallNav from './SmallNav';
 
-  // Fetches Optimized routes
+const geolocateControlStyle = {
+  right: 10,
+  top: 10,
+};
+
+const Navigation = () => {
+  const { routes, setRoutes, selectedRoute } = useStore();
+  const [isLoading, setLoading] = useState(true);
+  const location = useLocation();
+  const mapRef = useRef();
+  // Takes in Chosen Breweries and Formats them for API
+  const getCoordinates = () => {
+    const breweries = location.state.selectedRoute;
+    const coords = [];
+    breweries.forEach((pub) => {
+      coords.push(pub.coordinates);
+    });
+    return coords.join(';');
+  };
   useEffect(() => {
-    const url =
-      'https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/-123.369354,48.42948;-123.368798,48.428099;-123.369496,48.428492?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g';
+    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/${getCoordinates()}?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g`;
     axios
       .get(url)
       .then((res) => {
@@ -23,7 +39,7 @@ const Navigation = () => {
       .catch((err) => {
         console.log('Error in Route Fetching', err);
       });
-  }, []);
+  }, [setRoutes]);
 
   if (isLoading) {
     return <Loading />;
@@ -39,7 +55,7 @@ const Navigation = () => {
 
     // Data for Marker Display
     const markerData = [];
-    const breweryMarkers = routes.waypoints.map((pub) => {
+    routes.waypoints.map((pub) => {
       markerData.push({
         name: pub.name,
         coordinates: pub.location,
@@ -89,11 +105,40 @@ const Navigation = () => {
     };
 
     return (
-      <DeckGL initialViewState={initialState} controller={true} layers={layers}>
+      <DeckGL
+        ContextProvider={MapContext.Provider}
+        initialViewState={initialState}
+        controller={true}
+        layers={layers}
+      >
         <StaticMap
           mapStyle='mapbox://styles/mapbox/light-v10'
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+          reuseMaps
+          ref={mapRef}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          preventStyleDiffing={true}
         />
+        <SmallNav />
+        <MapContext.Consumer>
+          {(outerContext) => {
+            return (
+              <MapContext.Provider
+                value={{
+                  map: mapRef.current ? mapRef.current.getMap() : null,
+                  ...outerContext,
+                }}
+              >
+                <GeolocateControl
+                  positionOptions={{ enableHighAccuracy: true }}
+                  trackUserLocation={true}
+                  style={geolocateControlStyle}
+                />
+              </MapContext.Provider>
+            );
+          }}
+        </MapContext.Consumer>
       </DeckGL>
     );
   }

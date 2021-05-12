@@ -1,3 +1,9 @@
-#point {
-  color: rgb(1, 12, 12);
+$palePurple: #877fa3;
+
+.icon {
+  background-color: $palePurple;
+  border-radius: 50%;
+}
+.container {
+  overflow: hidden;
 }
