@@ -6,14 +6,25 @@ import { StaticMap } from 'react-map-gl';
 import { PathLayer, IconLayer } from '@deck.gl/layers';
 import useStore from '../store';
 import Loading from './Loading';
-const Navigation = () => {
-  const { routes, setRoutes, breweries } = useStore();
-  const [isLoading, setLoading] = useState(true);
+import { useLocation } from 'react-router-dom';
 
-  // Fetches Optimized routes
+const Navigation = () => {
+  const { routes, setRoutes, selectedRoute } = useStore();
+  const [isLoading, setLoading] = useState(true);
+  const location = useLocation();
+
+  // Takes in Chosen Breweries and Formats them for API
+  const getCoordinates = () => {
+    const breweries = location.state.selectedRoute;
+    const coords = [];
+    breweries.forEach((pub) => {
+      coords.push(pub.coordinates);
+    });
+    return coords.join(';');
+  };
+
   useEffect(() => {
-    const url =
-      'https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/-123.369354,48.42948;-123.368798,48.428099;-123.369496,48.428492?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g';
+    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/${getCoordinates()}?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g`;
     axios
       .get(url)
       .then((res) => {

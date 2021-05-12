@@ -5,7 +5,7 @@ import Styles from '../Styles/Breweries.module.scss';
 import { BsPlusCircleFill } from 'react-icons/bs';
 import { HiMinusCircle } from 'react-icons/hi';
 import { FaRoute } from 'react-icons/fa';
-import Link from 'react-router-dom/Link';
+import { useHistory } from 'react-router';
 
 const Breweries = () => {
   const [open, setOpen] = useState(false);
@@ -20,6 +20,16 @@ const Breweries = () => {
     }
   };
 
+  let history = useHistory();
+  const handleRouteSubmit = () => {
+    history.push({
+      pathname: '/navigation',
+      state: {
+        selectedRoute,
+      },
+    });
+  };
+
   const breweryCards = breweries.map((pub) => {
     return (
       <CardItem
@@ -32,13 +42,13 @@ const Breweries = () => {
       />
     );
   });
+  console.log(selectedRoute);
   return (
     <div className={Styles.container}>
-      <Link to='/navigation'>
-        <button className={Styles.route}>
-          <FaRoute className={Styles.routeIcon} />
-        </button>
-      </Link>
+      <button className={Styles.route} onClick={handleRouteSubmit}>
+        <FaRoute className={Styles.routeIcon} />
+      </button>
+
       <div className={Styles.breweryToggle} onClick={() => setOpen(!open)}>
         {open ? (
           <HiMinusCircle className={Styles.close} />
