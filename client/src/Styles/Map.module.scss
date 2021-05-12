@@ -1,4 +1,9 @@
+$palePurple: #877fa3;
+
 .icon {
-  background-color: rgb(88, 88, 88);
+  background-color: $palePurple;
   border-radius: 50%;
+}
+.container {
+  overflow: hidden;
 }

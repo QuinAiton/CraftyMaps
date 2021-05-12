@@ -1,10 +1,10 @@
-import React, { useState, useRef, useMemo } from 'react';
-import Styles from '../Styles/Map.module.scss';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import Styles from '../Styles/Map.module.scss';
+import React, { useState, useRef, useMemo } from 'react';
 import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
+import SmallNav from './SmallNav';
 import useStore from '../store';
 import Breweries from './Breweries';
-
 const geolocateControlStyle = {
   right: 10,
   top: 10,
@@ -50,12 +50,15 @@ const Map = () => {
 
   return (
     <ReactMapGL
+      className={Styles.Container}
       {...viewport}
       ref={mapRef}
       mapStyle='mapbox://styles/mapbox/light-v10'
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}
     >
+      <SmallNav />
+
       <GeolocateControl
         style={geolocateControlStyle}
         positionOptions={{ enableHighAccuracy: true }}
