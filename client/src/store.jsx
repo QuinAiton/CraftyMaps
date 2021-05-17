@@ -19,6 +19,11 @@ const useStore = create((set) => ({
     set((state) => ({
       selectedRoute,
     })),
+  currentLocation: [],
+  setCurrentLocation: (currentLocation) =>
+    set((state) => ({
+      currentLocation,
+    })),
 }));
 
 export default useStore;

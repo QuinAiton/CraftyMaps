@@ -15,15 +15,31 @@ const geolocateControlStyle = {
 };
 
 const Navigation = () => {
-  const { routes, setRoutes, selectedRoute } = useStore();
+  const {
+    routes,
+    setRoutes,
+    selectedRoute,
+    setCurrentLocation,
+    currentLocation,
+  } = useStore();
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
   const mapRef = useRef();
+
+  // gets users Current Location
+  useEffect(() => {
+    const showPosition = (position) => {
+      const location = [position.coords.longitude, position.coords.latitude];
+      setCurrentLocation(location);
+    };
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }, []);
 
   // Takes in Chosen Breweries and Formats them for API
   const getCoordinates = () => {
     const breweries = location.state.selectedRoute;
     const coords = [];
+    coords.push(currentLocation);
     breweries.forEach((pub) => {
       coords.push(pub.coordinates);
     });
@@ -99,7 +115,7 @@ const Navigation = () => {
       height: '100vh',
       latitude: routes.waypoints[0].location[1],
       longitude: routes.waypoints[0].location[0],
-      zoom: 16,
+      zoom: 12,
       pitch: 60,
       bearing: 0,
     };
