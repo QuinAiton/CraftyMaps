@@ -8,6 +8,7 @@ import DeckGL from 'deck.gl';
 import useStore from '../store';
 import Loading from './Loading';
 import SmallNav from './SmallNav';
+import TripStats from './TripStats';
 
 const geolocateControlStyle = {
   right: 10,
@@ -15,13 +16,7 @@ const geolocateControlStyle = {
 };
 
 const Navigation = () => {
-  const {
-    routes,
-    setRoutes,
-    selectedRoute,
-    setCurrentLocation,
-    currentLocation,
-  } = useStore();
+  const { routes, setRoutes, setCurrentLocation, currentLocation } = useStore();
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
   const mapRef = useRef();
@@ -53,6 +48,7 @@ const Navigation = () => {
       .then((res) => {
         setRoutes(res.data);
         setLoading(false);
+        console.log(routes);
       })
       .catch((err) => {
         console.log('Error in Route Fetching', err);
@@ -155,6 +151,7 @@ const Navigation = () => {
             );
           }}
         </MapContext.Consumer>
+        <TripStats />
       </DeckGL>
     );
   }
