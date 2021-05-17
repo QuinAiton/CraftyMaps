@@ -1,7 +1,7 @@
-import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import Styles from '../Styles/Map.module.scss';
-import React, { useState, useRef, useMemo } from 'react';
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
+import React, { useState, useRef, useMemo } from 'react';
 import SmallNav from './SmallNav';
 import useStore from '../store';
 import Breweries from './Breweries';
@@ -24,6 +24,7 @@ const Map = () => {
 
   // brings in breweries from store
   const breweries = useStore((state) => state.breweries);
+
   // Creates markers for each Pub
   // Only rerender markers if breweries has changed
   const mapRef = useRef();
@@ -59,7 +60,6 @@ const Map = () => {
       onViewportChange={(viewport) => setViewport(viewport)}
     >
       <SmallNav />
-
       <GeolocateControl
         style={geolocateControlStyle}
         positionOptions={{ enableHighAccuracy: true }}
@@ -67,7 +67,6 @@ const Map = () => {
         auto
       />
       {markers}
-
       <Breweries />
     </ReactMapGL>
   );

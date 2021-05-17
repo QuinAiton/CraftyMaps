@@ -1,5 +1,6 @@
 import React from 'react';
 import Styles from '../Styles/CardItem.module.scss';
+
 const CardItem = ({ name, location, category, id, addRouteHandler }) => {
   return (
     <div className={Styles.container}>

@@ -5,7 +5,7 @@ $purple: #523d9e;
 
 .container {
   display: flex;
-  height: 25vh;
+  height: 40vh;
   z-index: 3;
   position: relative;
   a {
@@ -52,7 +52,7 @@ $purple: #523d9e;
     cursor: pointer;
     opacity: 0;
     z-index: 3;
-    bottom: 29vh;
+    bottom: 43vh;
     left: 3vw;
   }
 
@@ -66,7 +66,7 @@ $purple: #523d9e;
   z-index: 2;
   position: relative;
   font-size: 3em;
-  bottom: 23vh;
+  bottom: 37vh;
   left: 3vw;
 }
 .close {
@@ -74,7 +74,7 @@ $purple: #523d9e;
   z-index: 2;
   position: relative;
   font-size: 3.7em;
-  bottom: 22vh;
+  bottom: 36vh;
   left: 2vw;
 }
 .breweries {

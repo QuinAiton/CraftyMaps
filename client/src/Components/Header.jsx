@@ -1,5 +1,6 @@
-import React from 'react';
 import Styles from '../Styles/Header.module.scss';
+import React from 'react';
+
 const Header = () => {
   return (
     <div className={Styles.container}>

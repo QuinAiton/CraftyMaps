@@ -1,11 +1,11 @@
-import React from 'react';
-import useStore from '../store';
 import Styles from '../Styles/Route.module.scss';
+import React from 'react';
 import { BsPlusCircleFill } from 'react-icons/bs';
+import useStore from '../store';
 import Directions from './Directions';
+
 const Route = () => {
   const routes = useStore((state) => state.routes.trips[0].legs);
-
   const getSteps = routes.forEach((location) => {
     console.log(location);
     location.steps.forEach((step) => {

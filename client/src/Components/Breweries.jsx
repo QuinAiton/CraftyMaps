@@ -20,6 +20,7 @@ const Breweries = () => {
     }
   };
 
+  // Sends Chosen Routes Through link Tag
   let history = useHistory();
   const handleRouteSubmit = () => {
     history.push({
@@ -30,6 +31,7 @@ const Breweries = () => {
     });
   };
 
+  // Create BreweryCards
   const breweryCards = breweries.map((pub) => {
     return (
       <CardItem
@@ -42,19 +44,20 @@ const Breweries = () => {
       />
     );
   });
+
   return (
     <div className={Styles.container}>
       <button className={Styles.route} onClick={handleRouteSubmit}>
         <FaRoute className={Styles.routeIcon} />
       </button>
 
-      <div className={Styles.breweryToggle} onClick={() => setOpen(!open)}>
+      <div className={Styles.breweryToggle}>
         {open ? (
           <HiMinusCircle className={Styles.close} />
         ) : (
           <BsPlusCircleFill className={Styles.open} />
         )}
-        <input type='checkbox' />
+        <input type='checkbox' onClick={() => setOpen(!open)} />
         <ul className={Styles.breweries}>{breweryCards}</ul>
       </div>
     </div>

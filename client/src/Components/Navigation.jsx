@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import axios from 'axios';
-import DeckGL from 'deck.gl';
+import React, { useEffect, useState, useRef } from 'react';
 import { StaticMap, MapContext, GeolocateControl } from 'react-map-gl';
 import { PathLayer, IconLayer } from '@deck.gl/layers';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import DeckGL from 'deck.gl';
 import useStore from '../store';
 import Loading from './Loading';
-import { useLocation } from 'react-router-dom';
 import SmallNav from './SmallNav';
 
 const geolocateControlStyle = {
@@ -19,6 +19,7 @@ const Navigation = () => {
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
   const mapRef = useRef();
+
   // Takes in Chosen Breweries and Formats them for API
   const getCoordinates = () => {
     const breweries = location.state.selectedRoute;
@@ -28,6 +29,7 @@ const Navigation = () => {
     });
     return coords.join(';');
   };
+
   useEffect(() => {
     const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/${getCoordinates()}?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g`;
     axios
@@ -80,8 +82,6 @@ const Navigation = () => {
         id: 'icon-layer',
         data: markerData,
         pickable: true,
-        // iconAtlas and iconMapping are required
-        // getIcon: return a string
         iconAtlas:
           'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
         iconMapping: ICON_MAPPING,
