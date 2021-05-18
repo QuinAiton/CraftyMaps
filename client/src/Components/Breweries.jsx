@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import useStore from '../store';
 import CardItem from './CardItem';
 import Styles from '../Styles/Breweries.module.scss';
-import { BsPlusCircleFill } from 'react-icons/bs';
+import beerIcon from './beer.svg';
 import { HiMinusCircle } from 'react-icons/hi';
 import { FaRoute } from 'react-icons/fa';
 import { useHistory } from 'react-router';
-
+import { GiCellarBarrels } from 'react-icons/gi';
 const Breweries = () => {
   const [open, setOpen] = useState(false);
 
@@ -55,7 +55,7 @@ const Breweries = () => {
         {open ? (
           <HiMinusCircle className={Styles.close} />
         ) : (
-          <BsPlusCircleFill className={Styles.open} />
+          <GiCellarBarrels className={Styles.open} />
         )}
         <input type='checkbox' onClick={() => setOpen(!open)} />
         <ul className={Styles.breweries}>{breweryCards}</ul>

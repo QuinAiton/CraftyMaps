@@ -34,7 +34,9 @@ const Navigation = () => {
   const getCoordinates = () => {
     const breweries = location.state.selectedRoute;
     const coords = [];
-    coords.push(currentLocation);
+    if (currentLocation) {
+      coords.push(currentLocation);
+    }
     breweries.forEach((pub) => {
       coords.push(pub.coordinates);
     });
@@ -48,7 +50,6 @@ const Navigation = () => {
       .then((res) => {
         setRoutes(res.data);
         setLoading(false);
-        console.log(routes);
       })
       .catch((err) => {
         console.log('Error in Route Fetching', err);
@@ -112,7 +113,6 @@ const Navigation = () => {
       latitude: routes.waypoints[0].location[1],
       longitude: routes.waypoints[0].location[0],
       zoom: 12,
-      pitch: 60,
       bearing: 0,
     };
 
