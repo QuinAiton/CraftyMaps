@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import useStore from '../store';
 import CardItem from './CardItem';
 import Styles from '../Styles/Breweries.module.scss';
-import beerIcon from './beer.svg';
 import { HiMinusCircle } from 'react-icons/hi';
 import { FaRoute } from 'react-icons/fa';
 import { useHistory } from 'react-router';

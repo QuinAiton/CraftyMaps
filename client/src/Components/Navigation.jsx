@@ -27,23 +27,24 @@ const Navigation = () => {
       const location = [position.coords.longitude, position.coords.latitude];
       setCurrentLocation(location);
     };
-    navigator.geolocation.getCurrentPosition(showPosition);
-  }, []);
-
-  // Takes in Chosen Breweries and Formats them for API
-  const getCoordinates = () => {
-    const breweries = location.state.selectedRoute;
-    const coords = [];
-    if (currentLocation) {
-      coords.push(currentLocation);
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(showPosition);
     }
-    breweries.forEach((pub) => {
-      coords.push(pub.coordinates);
-    });
-    return coords.join(';');
-  };
+  }, [setCurrentLocation]);
 
   useEffect(() => {
+    // Takes in Chosen Breweries and Formats them for API
+    const getCoordinates = () => {
+      const breweries = location.state.selectedRoute;
+      const coords = [];
+      if (currentLocation) {
+        coords.push(currentLocation);
+      }
+      breweries.forEach((pub) => {
+        coords.push(pub.coordinates);
+      });
+      return coords.join(';');
+    };
     const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/${getCoordinates()}?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g`;
     axios
       .get(url)
@@ -54,7 +55,7 @@ const Navigation = () => {
       .catch((err) => {
         console.log('Error in Route Fetching', err);
       });
-  }, [setRoutes]);
+  }, [setRoutes, currentLocation, location.state.selectedRoute]);
 
   if (isLoading) {
     return <Loading />;
@@ -70,13 +71,22 @@ const Navigation = () => {
 
     // Data for Marker Display
     const markerData = [];
-    routes.waypoints.map((pub) => {
+    const beerMarkers = routes.waypoints.slice(1);
+    beerMarkers.map((pub) => {
       markerData.push({
         name: pub.name,
         coordinates: pub.location,
       });
       return markerData;
     });
+
+    // Data for Location display
+    const startingLocation = [
+      {
+        name: 'current Location',
+        coordinates: routes.waypoints[0].location,
+      },
+    ];
 
     const ICON_MAPPING = {
       marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
@@ -89,20 +99,33 @@ const Navigation = () => {
         data: routesData,
         getWidth: (data) => 2,
         getColor: (data) => data.color,
-        widthMinPixels: 3,
+        widthMinPixels: 5,
       }),
       new IconLayer({
-        id: 'icon-layer',
+        id: 'brewery-layer',
         data: markerData,
         pickable: true,
         iconAtlas:
-          'https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/icon-atlas.png',
+          'https://img.icons8.com/emoji/100/000000/clinking-beer_mugs.png',
         iconMapping: ICON_MAPPING,
         getIcon: (d) => 'marker',
         sizeScale: 10,
         getPosition: (d) => d.coordinates,
         getSize: (d) => 5,
-        getColor: (d) => [Math.sqrt(d.exits), 140, 0],
+        getColor: (d) => [255, 215, 0],
+      }),
+      new IconLayer({
+        id: 'location-layer',
+        data: startingLocation,
+        pickable: true,
+        iconAtlas:
+          'https://img.icons8.com/ios-filled/100/000000/cycling-mountain-bike.png',
+        iconMapping: ICON_MAPPING,
+        getIcon: (d) => 'marker',
+        sizeScale: 8,
+        getPosition: (d) => d.coordinates,
+        getSize: (d) => 8,
+        getColor: (d) => [0, 0, 0],
       }),
     ];
 
