@@ -8,7 +8,7 @@ import Breweries from './Breweries';
 
 const geolocateControlStyle = {
   right: 10,
-  top: 10,
+  top: 20,
 };
 
 const Map = () => {

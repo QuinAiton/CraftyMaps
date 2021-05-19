@@ -10,6 +10,10 @@ $purple: #523d9e;
   padding: 15px;
   height: auto;
   text-align: center;
+  background-color: $primary;
+}
+.container:first-child {
+  border-radius: 25px 25px 5px 5px;
 }
 
 p {
@@ -20,8 +24,8 @@ button {
   padding: 10px 20px;
   border-radius: 10px;
   border: 1px solid $purple;
-  color: $purple;
-  background-color: $primary;
+  color: $primary;
+  background-color: $purple;
 }
 
 button:hover {

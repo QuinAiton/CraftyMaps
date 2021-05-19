@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { StaticMap, MapContext, GeolocateControl } from 'react-map-gl';
 import { PathLayer, IconLayer } from '@deck.gl/layers';
 import { useLocation } from 'react-router-dom';
+import { FaDirections } from 'react-icons/fa';
 import axios from 'axios';
 import DeckGL from 'deck.gl';
 import useStore from '../store';
@@ -12,7 +13,7 @@ import TripStats from './TripStats';
 
 const geolocateControlStyle = {
   right: 10,
-  top: 10,
+  top: 20,
 };
 
 const Navigation = () => {
@@ -27,6 +28,7 @@ const Navigation = () => {
       const location = [position.coords.longitude, position.coords.latitude];
       setCurrentLocation(location);
     };
+    // Checks if geolocation is available
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(showPosition);
     }
@@ -175,6 +177,7 @@ const Navigation = () => {
           }}
         </MapContext.Consumer>
         <TripStats />
+        <FaDirections />
       </DeckGL>
     );
   }
