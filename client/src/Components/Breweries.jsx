@@ -17,6 +17,7 @@ const Breweries = () => {
     if (!selectedRoute.find((pub) => pub.id === id)) {
       setSelectedRoute([...selectedRoute, selectedBrewery]);
     }
+    selectedBrewery.isRouted = true
   };
 
   // Sends Chosen Routes Through link Tag
@@ -40,6 +41,7 @@ const Breweries = () => {
         location={pub.location.join(', ')}
         category={pub.category}
         addRouteHandler={addRouteHandler}
+        isRouted = {pub.isRouted}
       />
     );
   });
