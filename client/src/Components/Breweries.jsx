@@ -13,12 +13,20 @@ const Breweries = () => {
 
   //Adds Breweries to Optimized Route Filters out Duplicates
   const addRouteHandler = (id) => {
-    const selectedBrewery = breweries.find((pub) => pub.id === id);
-    if (!selectedRoute.find((pub) => pub.id === id)) {
+    const selectedBrewery = breweries.find(pub => pub.id === id);
+    if (!selectedRoute.find(pub => pub.id === id)) {
       setSelectedRoute([...selectedRoute, selectedBrewery]);
     }
     selectedBrewery.isRouted = true
   };
+
+  const removeRouteHandler = (id)=> { 
+    const filteredRoute =selectedRoute.filter(route => route.id !== id)
+    setSelectedRoute([...filteredRoute]); 
+    const selectedBrewery = breweries.find(pub => pub.id === id);
+    selectedBrewery.isRouted = false;
+  }
+  console.log(selectedRoute)
 
   // Sends Chosen Routes Through link Tag
   let history = useHistory();
@@ -42,6 +50,7 @@ const Breweries = () => {
         category={pub.category}
         addRouteHandler={addRouteHandler}
         isRouted = {pub.isRouted}
+        removeRouteHandler={removeRouteHandler}
       />
     );
   });
