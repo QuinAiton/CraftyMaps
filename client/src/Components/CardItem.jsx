@@ -13,8 +13,8 @@ const CardItem = ({ name, location, category, id, isRouted, coordinates, addRout
       {
       isRouted? 
       <div className={Styles.addUndo}>
-      <BsCheckCircle style={{color:'green',fontSize:'25px', justifyContent:"center"}}/>
-      <button onClick={()=> removeRouteHandler(id)}><FaUndo/></button>
+      <BsCheckCircle style={{color:'green',fontSize:'25px'}}/>
+      <FaUndo style={{color:'red',fontSize:'18px'}} onClick={()=> removeRouteHandler(id)}/>
       </div>
       :
       <button onClick={() => addRouteHandler(id)}>Add to Route</button> 
