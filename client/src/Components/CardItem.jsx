@@ -3,14 +3,13 @@ import useStore from '../store';
 import Styles from '../Styles/CardItem.module.scss';
 import {BsCheckCircle} from 'react-icons/bs';
 import {FaUndo} from 'react-icons/fa'
-const CardItem = ({ name, location, category, id, isRouted, addRouteHandler, removeRouteHandler }) => {
+const CardItem = ({ name, location, category, id, isRouted, coordinates, addRouteHandler, removeRouteHandler, onSelectBrewery}) => {
   const {selectedRoute}= useStore();
   return (
-    <div className={Styles.container}>
+    <div className={Styles.container} onClick={()=> onSelectBrewery(...coordinates)} > 
       <h4>{name}</h4>
       <p>{category}</p>
       <p>{location}</p>
-
       {
       isRouted? 
       <div className={Styles.addUndo}>
@@ -20,7 +19,7 @@ const CardItem = ({ name, location, category, id, isRouted, addRouteHandler, rem
       :
       <button onClick={() => addRouteHandler(id)}>Add to Route</button> 
       }
-    </div>
+    </div> 
   );
 };
 

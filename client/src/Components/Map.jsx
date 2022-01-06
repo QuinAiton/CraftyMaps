@@ -1,7 +1,7 @@
 import Styles from '../Styles/Map.module.scss';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import ReactMapGL, { Marker, GeolocateControl } from 'react-map-gl';
-import React, { useState, useRef, useMemo } from 'react';
+import ReactMapGL, { Marker, GeolocateControl, FlyToInterpolator } from 'react-map-gl';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import SmallNav from './SmallNav';
 import useStore from '../store';
 import Breweries from './Breweries';
@@ -22,6 +22,20 @@ const Map = () => {
     pitch: 50,
   });
 
+
+const selectBreweryHandler = useCallback((longitude, latitude)=>{ 
+setViewport({ 
+  width: '100vw',
+  height: '100vh',
+  longitude,
+  latitude, 
+  zoom:18, 
+  transitionInterpolator: new FlyToInterpolator({speed:1.2}), 
+  transitionDuration:'auto'
+})
+
+}, [])
+
   // brings in breweries from store
   const breweries = useStore((state) => state.breweries);
 
@@ -35,8 +49,8 @@ const Map = () => {
           key={pub.id}
           longitude={pub.coordinates[0]}
           latitude={pub.coordinates[1]}
-          offsetTop={viewport.zoom - 30}
-          offsetLeft={viewport.zoom - 30}
+          offsetTop={viewport.zoom - 70}
+          offsetLeft={viewport.zoom}
         >
           <img
             className={Styles.icon}
@@ -67,7 +81,7 @@ const Map = () => {
         auto
       />
       {markers}
-      <Breweries />
+      <Breweries onSelectBrewery={selectBreweryHandler} />
     </ReactMapGL>
   );
 };

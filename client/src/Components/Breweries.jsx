@@ -6,7 +6,7 @@ import { HiMinusCircle } from 'react-icons/hi';
 import { FaRoute } from 'react-icons/fa';
 import { useHistory } from 'react-router';
 import { GiCellarBarrels } from 'react-icons/gi';
-const Breweries = () => {
+const Breweries = ({onSelectBrewery}) => {
   const [open, setOpen] = useState(false);
 
   const { breweries, selectedRoute, setSelectedRoute } = useStore();
@@ -26,7 +26,6 @@ const Breweries = () => {
     const selectedBrewery = breweries.find(pub => pub.id === id);
     selectedBrewery.isRouted = false;
   }
-  console.log(selectedRoute)
 
   // Sends Chosen Routes Through link Tag
   let history = useHistory();
@@ -40,7 +39,7 @@ const Breweries = () => {
   };
 
   // Create BreweryCards
-  const breweryCards = breweries.map((pub) => {
+  const breweryCards = breweries.map((pub) => { 
     return (
       <CardItem
         key={pub.id}
@@ -48,9 +47,11 @@ const Breweries = () => {
         name={pub.name}
         location={pub.location.join(', ')}
         category={pub.category}
-        addRouteHandler={addRouteHandler}
+        coordinates= {pub.coordinates}
         isRouted = {pub.isRouted}
-        removeRouteHandler={removeRouteHandler}
+        addRouteHandler={addRouteHandler}
+        removeRouteHandler={removeRouteHandler} 
+        onSelectBrewery={onSelectBrewery}
       />
     );
   });
