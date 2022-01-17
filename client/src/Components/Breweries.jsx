@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import useStore from '../store';
 import CardItem from './CardItem';
 import Styles from '../Styles/Breweries.module.scss';
-import { HiMinusCircle } from 'react-icons/hi';
+import { GiCellarBarrels } from 'react-icons/gi';
 import { FaRoute } from 'react-icons/fa';
 import { useHistory } from 'react-router';
-import { GiCellarBarrels } from 'react-icons/gi';
+import { IoArrowDownCircle } from 'react-icons/io5';
 const Breweries = ({onSelectBrewery}) => {
   const [open, setOpen] = useState(false);
 
@@ -61,15 +61,18 @@ const Breweries = ({onSelectBrewery}) => {
       <button className={Styles.route} onClick={handleRouteSubmit}>
         <FaRoute className={Styles.routeIcon} />
       </button>
-
       <div className={Styles.breweryToggle}>
-        {open ? (
-          <HiMinusCircle className={Styles.close} />
-        ) : (
-          <GiCellarBarrels className={Styles.open} />
-        )}
-        <input type='checkbox' onClick={() => setOpen(!open)} />
-        <ul className={Styles.breweries}>{breweryCards}</ul>
+        {
+        !open?
+        <GiCellarBarrels className={Styles.open} onClick={() => setOpen(!open)}/>
+        :
+        <div>       
+          <IoArrowDownCircle className={Styles.close} onClick={() => setOpen(!open)}/>
+          <ul className={Styles.breweries}>
+            {breweryCards}
+          </ul>
+        </div>
+        }
       </div>
     </div>
   );
