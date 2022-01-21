@@ -8,6 +8,7 @@ $purple: #523d9e;
   height: 40vh;
   z-index: 3;
   position: relative;
+
   a {
     display: flex;
     border-radius: 50%;
@@ -19,9 +20,11 @@ $purple: #523d9e;
     font-weight: 400;
     transition: 200ms;
   }
+
   a:hover {
     opacity: 0.5;
   }
+
   ul {
     // padding-top: 40px;
     list-style-type: none;
@@ -41,7 +44,7 @@ $purple: #523d9e;
   position: absolute;
   -webkit-user-select: none;
   user-select: none;
-  bottom: -90vh;
+  bottom: -25vh;
   left: 0;
 }
 
@@ -50,23 +53,25 @@ $purple: #523d9e;
   z-index: 2;
   position: relative;
   font-size: 3em;
-  bottom: 45vh;
-  left: 2vw;
+  bottom: -20vh;
+  left: 1.5vw;
 }
+
 .close {
   color: $purple;
   z-index: 2;
   position: relative;
   font-size: 3.7em;
-  bottom: 96vh;
-  left: 46vw;
+  bottom: 25vh;
+  left: 1vw;
 }
+
 .breweries {
   box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 60px 10px;
   position: absolute;
   left: 0;
   bottom: 0;
-  height:400vh;
+  height: 100vh;
   width: 100vw;
   padding: 0;
   margin: 0;
@@ -93,6 +98,7 @@ $purple: #523d9e;
   background-color: $purple;
   padding-left: 12px;
   z-index: 2;
+
   .routeIcon {
     color: $primary;
     font-size: 20px;
