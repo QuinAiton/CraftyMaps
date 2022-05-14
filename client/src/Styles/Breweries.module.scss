@@ -4,11 +4,7 @@ $opacity: #ffffffc4;
 $purple: #523d9e;
 
 .container {
-  display: flex;
-  height: 40vh;
   z-index: 3;
-  position: relative;
-
   a {
     display: flex;
     border-radius: 50%;
@@ -31,6 +27,14 @@ $purple: #523d9e;
   }
 }
 
+.buttonContainer {
+  position: relative;
+  top: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
 .icon {
   font-size: 1.2em;
   margin-right: 15px;
@@ -51,26 +55,24 @@ $purple: #523d9e;
 .open {
   color: $purple;
   z-index: 2;
-  position: relative;
   font-size: 3em;
-  bottom: -20vh;
-  left: 1.5vw;
+  margin-left: 20px;
 }
 
 .close {
   color: $purple;
   z-index: 2;
   position: relative;
-  font-size: 3.7em;
-  bottom: 25vh;
-  left: 1vw;
+  font-size: 4em;
+  bottom: 42vh;
+  left: 95vw;
 }
 
 .breweries {
   box-shadow: rgba(0, 0, 0, 0.56) 0px 0px 60px 10px;
   position: absolute;
-  left: 0;
-  bottom: 0;
+  // right: -40px;
+  bottom: 20vh;
   height: 100vh;
   width: 100vw;
   padding: 0;
@@ -89,15 +91,13 @@ $purple: #523d9e;
 }
 
 .route {
-  position: relative;
-  bottom: -72vh;
-  left: 15px;
   border-radius: 50%;
   width: 47px;
   height: 50px;
   background-color: $purple;
   padding-left: 12px;
   z-index: 2;
+  margin-left: 20px;
 
   .routeIcon {
     color: $primary;
