@@ -18,7 +18,15 @@ const geolocateControlStyle = {
 };
 
 const Navigation = () => {
-  const { routes, setRoutes, setCurrentLocation, currentLocation } = useStore();
+  const {
+    routes,
+    setRoutes,
+    currentLocation,
+    setCurrentLocation,
+    directions,
+    setDirections,
+  } = useStore();
+
   const [isLoading, setLoading] = useState(true);
   const location = useLocation();
   const mapRef = useRef();
@@ -30,21 +38,33 @@ const Navigation = () => {
     breweries.forEach(pub => {
       coords.push(pub.coordinates);
     });
-    const coordString = coords.join(";");
+    console.log(coords);
     return coords.join(";");
+  };
+
+  const getDirections = () => {
+    const flattenDirections = routes?.trips[0]?.legs;
+    let steps = [];
+    flattenDirections.map(leg => {
+      steps = [...steps, ...leg?.steps];
+    });
+    setDirections(steps);
   };
 
   useEffect(() => {
     // gets users Current Location
     const showPosition = position => {
-      const location = [position.coords.longitude, position.coords.latitude];
-      setCurrentLocation(location);
+      const userPosition = [
+        position.coords.longitude,
+        position.coords.latitude,
+      ];
+      setCurrentLocation(userPosition);
     };
     // Checks if geolocation is available
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(showPosition);
     }
-  }, [setCurrentLocation]);
+  }, []);
 
   useEffect(() => {
     // Takes in Chosen Breweries and Formats them for API
@@ -53,12 +73,14 @@ const Navigation = () => {
       .get(url)
       .then(res => {
         setRoutes(res.data);
+        if (routes) getDirections();
         setLoading(false);
       })
+
       .catch(err => {
         console.log("Error in Route Fetching", err);
       });
-  }, [setRoutes, currentLocation, location.state.selectedRoute]);
+  }, []);
 
   if (isLoading) {
     return <Loading />;
@@ -71,7 +93,6 @@ const Navigation = () => {
         path: [...routes.trips[0].geometry.coordinates],
       },
     ];
-
     // Data for Marker Display
     const markerData = [];
     const beerMarkers = routes.waypoints.slice(1);
@@ -138,8 +159,9 @@ const Navigation = () => {
       height: "100vh",
       latitude: routes.waypoints[0].location[1],
       longitude: routes.waypoints[0].location[0],
-      zoom: 12,
+      zoom: 20,
       bearing: 0,
+      pitch: 60,
     };
 
     return (
@@ -179,7 +201,7 @@ const Navigation = () => {
         </MapContext.Consumer>
         <TripStats />
         <FaDirections />
-        {/* <Directions /> */}
+        <Directions directions={directions} />
       </DeckGL>
     );
   }

@@ -1,28 +1,38 @@
-import create from 'zustand';
+import create from "zustand";
 
 // Creates Object Store
-const useStore = create((set) => ({
+const useStore = create(set => ({
   // Handles brewery Request from API
   breweries: [],
-  setBreweries: (breweries) =>
-    set((state) => ({
+  setBreweries: breweries =>
+    set(() => ({
       breweries,
     })),
+
   // Handles route requests
   routes: [],
-  setRoutes: (routes) =>
-    set((state) => ({
+  setRoutes: routes =>
+    set(() => ({
       routes,
     })),
   selectedRoute: [],
-  setSelectedRoute: (selectedRoute) =>
-    set((state) => ({
+  setSelectedRoute: selectedRoute =>
+    set(() => ({
       selectedRoute,
     })),
+
+  // handles location requests
   currentLocation: [],
-  setCurrentLocation: (currentLocation) =>
-    set((state) => ({
+  setCurrentLocation: currentLocation =>
+    set(() => ({
       currentLocation,
+    })),
+
+  // handles direction requests
+  directions: [],
+  setDirections: directions =>
+    set(() => ({
+      directions,
     })),
 }));
 
