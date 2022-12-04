@@ -1,8 +1,6 @@
 import "./Styles/App.scss";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useEffect } from "react";
-import useStore from "./store";
-import axios from "axios";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import useStore from './hooks/store'
 import Navigation from "./components/Navigation";
 import Map from "./components/Map";
 import breweries from "./components/breweries";

@@ -1,176 +1,161 @@
 import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import React, { useEffect, useState, useRef } from "react";
-import { StaticMap, MapContext, GeolocateControl } from "react-map-gl";
-import { PathLayer, IconLayer } from "@deck.gl/layers";
-import { useLocation } from "react-router-dom";
-import { FaDirections } from "react-icons/fa";
-import axios from "axios";
-import DeckGL from "deck.gl";
-import useStore from "../store";
-import Loading from "./Loading";
-import SmallNav from "./SmallNav";
-import TripStats from "./TripStats";
-import Directions from "./Directions";
+import React, { useEffect, useState, useRef, useMemo } from 'react'
+import { StaticMap, MapContext, GeolocateControl } from 'react-map-gl'
+import { PathLayer, IconLayer } from '@deck.gl/layers'
+import { useLocation } from 'react-router-dom'
+import { FaDirections } from 'react-icons/fa'
+import axios from 'axios'
+import DeckGL from 'deck.gl'
+import useStore from '../hooks/store'
+import Loading from './Loading'
+import SmallNav from './SmallNav'
+import TripStats from './TripStats'
+import Directions from './Directions'
 
 const geolocateControlStyle = {
   right: 10,
   top: 20,
-};
+}
 
 const Navigation = () => {
-  const {
-    routes,
-    setRoutes,
-    currentLocation,
-    setCurrentLocation,
-    directions,
-    setDirections,
-  } = useStore();
+  const { routes, setRoutes, currentLocation, setCurrentLocation, directions, setDirections } = useStore()
 
-  const [isLoading, setLoading] = useState(true);
-  const location = useLocation();
-  const mapRef = useRef();
+  const [isLoading, setLoading] = useState(true)
+  const location = useLocation()
+  const mapRef = useRef()
 
-  const getCoordinates = () => {
-    const breweries = location.state.selectedRoute;
-    const coords = [];
-    if (currentLocation) coords.push(currentLocation);
+  const getCoordinates = useMemo(() => {
+    const breweries = location.state.selectedRoute
+    const coords = []
+    if (currentLocation) coords.push(currentLocation)
     breweries.forEach(pub => {
-      coords.push(pub.coordinates);
-    });
-    console.log(coords);
-    return coords.join(";");
-  };
+      coords.push(pub.coordinates)
+    })
+    return coords.join(';')
+  }, [location, currentLocation])
 
-  const getDirections = () => {
-    const flattenDirections = routes?.trips[0]?.legs;
-    let steps = [];
-    flattenDirections.map(leg => {
-      steps = [...steps, ...leg?.steps];
-    });
-    setDirections(steps);
-  };
+  const getDirections = useMemo(() => {
+    const flattenDirections = routes?.trips[0]?.legs
+    let steps = []
+    flattenDirections.forEach(leg => {
+      steps = [...steps, ...leg?.steps]
+    })
+    setDirections(steps)
+  }, [routes])
 
   useEffect(() => {
     // gets users Current Location
     const showPosition = position => {
-      const userPosition = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-      setCurrentLocation(userPosition);
-    };
-    // Checks if geolocation is available
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(showPosition);
+      const userPosition = [position.coords.longitude, position.coords.latitude]
+      setCurrentLocation(userPosition)
     }
-  }, []);
+    // Checks if geolocation is available
+    console.log('here')
+    console.log(navigator)
+    if (navigator.geolocation) {
+      console.log(navigator)
+      navigator.geolocation.watchPosition(showPosition)
+    }
+  }, [])
 
   useEffect(() => {
     // Takes in Chosen Breweries and Formats them for API
-    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/${getCoordinates()}?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g`;
+    const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/cycling/${getCoordinates()}?steps=true&geometries=geojson&access_token=pk.eyJ1IjoicXVpbmFpdG9uIiwiYSI6ImNrbjR1NHY4MzF1cmQycmxlY21vOHN4MXIifQ.d7O-EySX4gVmlHRQ0sCb6g`
     axios
       .get(url)
       .then(res => {
-        setRoutes(res.data);
-        if (routes) getDirections();
-        setLoading(false);
+        setRoutes(res.data)
+        if (routes) getDirections()
+        setLoading(false)
       })
 
       .catch(err => {
-        console.log("Error in Route Fetching", err);
-      });
-  }, []);
+        console.log('Error in Route Fetching', err)
+      })
+  }, [])
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading />
   } else {
     // Data for Route Display
     const routesData = [
       {
-        name: "Brewery Route",
+        name: 'Brewery Route',
         color: [82, 61, 158],
         path: [...routes.trips[0].geometry.coordinates],
       },
-    ];
+    ]
     // Data for Marker Display
-    const markerData = [];
-    const beerMarkers = routes.waypoints.slice(1);
+    const markerData = []
+    const beerMarkers = routes.waypoints.slice(1)
     beerMarkers.map(pub => {
       markerData.push({
         name: pub.name,
         coordinates: pub.location,
-      });
-      return markerData;
-    });
+      })
+      return markerData
+    })
 
     // Data for Location display
     const startingLocation = [
       {
-        name: "current Location",
+        name: 'current Location',
         coordinates: routes.waypoints[0].location,
       },
-    ];
+    ]
 
     const ICON_MAPPING = {
       marker: { x: 0, y: 0, width: 128, height: 128, mask: true },
-    };
+    }
 
     // adds layers to overlay on map
     const layers = [
       new PathLayer({
-        id: "path-layer",
+        id: 'path-layer',
         data: routesData,
         getWidth: data => 2,
         getColor: data => data.color,
         widthMinPixels: 5,
       }),
       new IconLayer({
-        id: "brewery-layer",
+        id: 'brewery-layer',
         data: markerData,
         pickable: true,
-        iconAtlas:
-          "https://img.icons8.com/emoji/100/000000/clinking-beer_mugs.png",
+        iconAtlas: 'https://img.icons8.com/emoji/100/000000/clinking-beer_mugs.png',
         iconMapping: ICON_MAPPING,
-        getIcon: d => "marker",
+        getIcon: d => 'marker',
         sizeScale: 10,
         getPosition: d => d.coordinates,
         getSize: d => 5,
         getColor: d => [255, 215, 0],
       }),
       new IconLayer({
-        id: "location-layer",
+        id: 'location-layer',
         data: startingLocation,
         pickable: true,
-        iconAtlas:
-          "https://img.icons8.com/ios-filled/100/000000/cycling-mountain-bike.png",
+        iconAtlas: 'https://img.icons8.com/ios-filled/100/000000/cycling-mountain-bike.png',
         iconMapping: ICON_MAPPING,
-        getIcon: d => "marker",
+        getIcon: d => 'marker',
         sizeScale: 8,
         getPosition: d => d.coordinates,
         getSize: d => 8,
         getColor: d => [0, 0, 0],
       }),
-    ];
+    ]
 
     // Creates initial state for Deck GL Layer
     const initialState = {
-      width: "100vw",
-      height: "100vh",
+      width: '100vw',
+      height: '100vh',
       latitude: routes.waypoints[0].location[1],
       longitude: routes.waypoints[0].location[0],
       zoom: 20,
       bearing: 0,
       pitch: 60,
-    };
+    }
 
     return (
-      <DeckGL
-        ContextProvider={MapContext.Provider}
-        initialViewState={initialState}
-        controller={true}
-        layers={layers}
-      >
+      <DeckGL ContextProvider={MapContext.Provider} initialViewState={initialState} controller={true} layers={layers}>
         <StaticMap
           mapStyle="mapbox://styles/mapbox/light-v10"
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -196,14 +181,14 @@ const Navigation = () => {
                   style={geolocateControlStyle}
                 />
               </MapContext.Provider>
-            );
+            )
           }}
         </MapContext.Consumer>
         <TripStats />
         <FaDirections />
         <Directions directions={directions} />
       </DeckGL>
-    );
+    )
   }
-};
+}
 export default Navigation;

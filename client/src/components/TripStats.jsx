@@ -1,5 +1,5 @@
 import React from "react";
-import useStore from "../store";
+import useStore from '../hooks/store'
 import Styles from "../Styles/TripStats.module.scss";
 const TripStats = () => {
   const tripInfo = useStore(state => state.routes.trips[0]);

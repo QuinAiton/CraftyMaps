@@ -7,24 +7,26 @@ import ReactMapGL, {
 } from "react-map-gl";
 import React, { useState, useRef, useMemo, useCallback } from "react";
 import SmallNav from "./SmallNav";
-import useStore from "../store";
-import Breweries from "./Breweries";
+import useStore from '../hooks/store'
+import BreweriesList from './BreweriesList'
 
-const geolocateControlStyle = {
+const geolocateStyle = {
   right: 10,
   top: 20,
-};
+  position: 'absolute',
+  margin: 10,
+}
 
 const Map = () => {
   // Handles Map Configuration
   const [viewport, setViewport] = useState({
-    width: "100vw",
-    height: "100vh",
+    width: '100vw',
+    height: '100vh',
     latitude: 48.447119,
     longitude: -123.38106,
     zoom: 10.5,
     pitch: 50,
-  });
+  })
 
   const selectBreweryHandler = useCallback((longitude, latitude) => {
     setViewport({
@@ -32,16 +34,16 @@ const Map = () => {
       latitude,
       zoom: 15,
       transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
-      transitionDuration: "auto",
-    });
-  }, []);
+      transitionDuration: 'auto',
+    })
+  }, [])
 
   // brings in breweries from store
-  const breweries = useStore(state => state.breweries);
+  const breweries = useStore(state => state.breweries)
 
   // Creates markers for each Pub
   // Only rerender markers if breweries has changed
-  const mapRef = useRef();
+  const mapRef = useRef()
   const markers = useMemo(
     () =>
       breweries.map(pub => (
@@ -62,7 +64,7 @@ const Map = () => {
         </Marker>
       )),
     [breweries, viewport.zoom]
-  );
+  )
 
   return (
     <ReactMapGL
@@ -74,16 +76,21 @@ const Map = () => {
       onViewportChange={viewport => setViewport(viewport)}
     >
       <SmallNav />
-      <GeolocateControl
+      {/* <GeolocateControl
         style={geolocateControlStyle}
         positionOptions={{ enableHighAccuracy: true }}
         trackUserLocation={true}
         auto
+      /> */}
+      <GeolocateControl
+        style={geolocateStyle}
+        positionOptions={{ enableHighAccuracy: true }}
+        trackUserLocation={true}
       />
       {markers}
-      <Breweries onSelectBrewery={selectBreweryHandler} />
+      <BreweriesList onSelectBrewery={selectBreweryHandler} />
     </ReactMapGL>
-  );
-};
+  )
+}
 
 export default Map;
