@@ -41,10 +41,10 @@ function App() {
       name: pub.name,
       category: pub.type,
       icon: pub.icon,
-      location: pub.address,
+      location: pub.address.join(', '),
       coordinates: [pub.lng, pub.lat],
       isRouted: false,
-    });
+    })
   });
   setBreweries(cleanBreweries);
 

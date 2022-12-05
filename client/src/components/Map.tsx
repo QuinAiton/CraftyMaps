@@ -1,13 +1,9 @@
-import Styles from "../Styles/Map.module.scss";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import ReactMapGL, {
-  Marker,
-  GeolocateControl,
-  FlyToInterpolator,
-} from "react-map-gl";
-import React, { useState, useRef, useMemo, useCallback } from "react";
-import SmallNav from "./SmallNav";
-import useStore from '../hooks/store'
+import Styles from '../Styles/Map.module.scss'
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import ReactMapGL, { Marker, GeolocateControl, FlyToInterpolator, MapRef } from 'react-map-gl'
+import React, { useState, useRef, useMemo, useCallback } from 'react'
+import SmallNav from './SmallNav'
+import useStore from '../hooks/store.jsx'
 import BreweriesList from './BreweriesList'
 
 const geolocateStyle = {
@@ -26,9 +22,17 @@ const Map = () => {
     longitude: -123.38106,
     zoom: 10.5,
     pitch: 50,
+    // transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
   })
 
-  const selectBreweryHandler = useCallback((longitude, latitude) => {
+  type FlyToInterpolatorProps = {
+    curve?: number
+    speed?: number
+    screenSpeed?: number
+    maxDuration?: number
+  }
+
+  const selectBreweryHandler = useCallback((longitude: number, latitude: number) => {
     setViewport({
       longitude,
       latitude,
@@ -39,14 +43,14 @@ const Map = () => {
   }, [])
 
   // brings in breweries from store
-  const breweries = useStore(state => state.breweries)
+  const breweries = useStore((state: { breweries: any }) => state.breweries)
 
   // Creates markers for each Pub
   // Only rerender markers if breweries has changed
-  const mapRef = useRef()
+  const mapRef = React.useRef<MapRef>(null)
   const markers = useMemo(
     () =>
-      breweries.map(pub => (
+      breweries.map((pub: { id: React.Key | null | undefined; coordinates: number[]; icon: string | undefined }) => (
         <Marker
           key={pub.id}
           longitude={pub.coordinates[0]}
@@ -73,7 +77,16 @@ const Map = () => {
       ref={mapRef}
       mapStyle="mapbox://styles/mapbox/light-v10"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      onViewportChange={viewport => setViewport(viewport)}
+      onViewportChange={(
+        viewport: React.SetStateAction<{
+          width: string
+          height: string
+          latitude: number
+          longitude: number
+          zoom: number
+          pitch: number
+        }>
+      ) => setViewport(viewport)}
     >
       <SmallNav />
       {/* <GeolocateControl
@@ -93,4 +106,4 @@ const Map = () => {
   )
 }
 
-export default Map;
+export default Map

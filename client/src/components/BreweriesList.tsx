@@ -6,24 +6,29 @@ import { GiCellarBarrels } from 'react-icons/gi'
 import { FaRoute } from 'react-icons/fa'
 import { useHistory } from 'react-router'
 import { IoArrowDownCircle } from 'react-icons/io5'
-const BreweriesList = ({ onSelectBrewery }) => {
+import breweryTypes from '../types/breweryTypes'
+type PropTypes = {
+  onSelectBrewery: () => void
+}
+
+const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
   const [open, setOpen] = useState(false)
 
   const { breweries, selectedRoute, setSelectedRoute } = useStore()
 
   //Adds Breweries to Optimized Route Filters out Duplicates
-  const addRouteHandler = id => {
-    const selectedBrewery = breweries.find(pub => pub.id === id)
-    if (!selectedRoute.find(pub => pub.id === id)) {
+  const addRouteHandler = (id: string) => {
+    const selectedBrewery = breweries.find((pub: { id: string }) => pub.id === id)
+    if (!selectedRoute.find((pub: { id: string }) => pub.id === id)) {
       setSelectedRoute([...selectedRoute, selectedBrewery])
     }
     selectedBrewery.isRouted = true
   }
 
-  const removeRouteHandler = id => {
-    const filteredRoute = selectedRoute.filter(route => route.id !== id)
+  const removeRouteHandler = (id: string) => {
+    const filteredRoute = selectedRoute.filter((route: { id: string }) => route.id !== id)
     setSelectedRoute([...filteredRoute])
-    const selectedBrewery = breweries.find(pub => pub.id === id)
+    const selectedBrewery = breweries.find((pub: { id: string }) => pub.id === id)
     selectedBrewery.isRouted = false
   }
 
@@ -39,13 +44,13 @@ const BreweriesList = ({ onSelectBrewery }) => {
   }
 
   // Create BreweryCards
-  const breweryCards = breweries.map(pub => {
+  const breweryCards = breweries.map((pub: breweryTypes) => {
     return (
       <CardItem
         key={pub.id}
         id={pub.id}
         name={pub.name}
-        location={pub.location.join(', ')}
+        location={pub.location}
         category={pub.category}
         coordinates={pub.coordinates}
         isRouted={pub.isRouted}

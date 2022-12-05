@@ -1,6 +1,6 @@
-import Styles from '../Styles/Loading.module.scss';
-import React from 'react';
-import { SiOpenstreetmap } from 'react-icons/si';
+import Styles from '../Styles/Loading.module.scss'
+import React from 'react'
+import { SiOpenstreetmap } from 'react-icons/si'
 
 const Loading = () => {
   return (
@@ -15,7 +15,7 @@ const Loading = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Loading;
+export default Loading

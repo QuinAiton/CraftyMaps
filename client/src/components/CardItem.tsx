@@ -2,6 +2,8 @@ import React from 'react'
 import Styles from '../Styles/CardItem.module.scss'
 import { BsCheckCircle } from 'react-icons/bs'
 import { FaUndo } from 'react-icons/fa'
+import breweryTypes from '../types/breweryTypes'
+
 const CardItem = ({
   name,
   location,
@@ -12,7 +14,7 @@ const CardItem = ({
   addRouteHandler,
   removeRouteHandler,
   onSelectBrewery,
-}) => {
+}: breweryTypes) => {
   return (
     <div className={Styles.container} onClick={() => onSelectBrewery(...coordinates)}>
       <h4>{name}</h4>

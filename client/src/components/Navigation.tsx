@@ -1,4 +1,4 @@
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import React, { useEffect, useState, useRef, useMemo } from 'react'
 import { StaticMap, MapContext, GeolocateControl } from 'react-map-gl'
 import { PathLayer, IconLayer } from '@deck.gl/layers'
@@ -12,6 +12,8 @@ import SmallNav from './SmallNav'
 import TripStats from './TripStats'
 import Directions from './Directions'
 
+// types
+import BreweryTypes from '../types/breweryTypes'
 const geolocateControlStyle = {
   right: 10,
   top: 20,
@@ -28,7 +30,7 @@ const Navigation = () => {
     const breweries = location.state.selectedRoute
     const coords = []
     if (currentLocation) coords.push(currentLocation)
-    breweries.forEach(pub => {
+    breweries.forEach((pub: BreweryTypes) => {
       coords.push(pub.coordinates)
     })
     return coords.join(';')
@@ -36,8 +38,8 @@ const Navigation = () => {
 
   const getDirections = useMemo(() => {
     const flattenDirections = routes?.trips[0]?.legs
-    let steps = []
-    flattenDirections.forEach(leg => {
+    let steps: string[] = []
+    flattenDirections.forEach((leg: { steps: any }) => {
       steps = [...steps, ...leg?.steps]
     })
     setDirections(steps)
@@ -45,7 +47,7 @@ const Navigation = () => {
 
   useEffect(() => {
     // gets users Current Location
-    const showPosition = position => {
+    const showPosition = (position: { coords: { longitude: any; latitude: any } }) => {
       const userPosition = [position.coords.longitude, position.coords.latitude]
       setCurrentLocation(userPosition)
     }
@@ -86,9 +88,9 @@ const Navigation = () => {
       },
     ]
     // Data for Marker Display
-    const markerData = []
+    const markerData: { name: string; coordinates: string }[] = []
     const beerMarkers = routes.waypoints.slice(1)
-    beerMarkers.map(pub => {
+    beerMarkers.map((pub: BreweryTypes) => {
       markerData.push({
         name: pub.name,
         coordinates: pub.location,
@@ -113,8 +115,8 @@ const Navigation = () => {
       new PathLayer({
         id: 'path-layer',
         data: routesData,
-        getWidth: data => 2,
-        getColor: data => data.color,
+        getWidth: (data: any) => 2,
+        getColor: (data: { color: any }) => data.color,
         widthMinPixels: 5,
       }),
       new IconLayer({
@@ -123,11 +125,11 @@ const Navigation = () => {
         pickable: true,
         iconAtlas: 'https://img.icons8.com/emoji/100/000000/clinking-beer_mugs.png',
         iconMapping: ICON_MAPPING,
-        getIcon: d => 'marker',
+        getIcon: (data: any) => 'marker',
         sizeScale: 10,
-        getPosition: d => d.coordinates,
-        getSize: d => 5,
-        getColor: d => [255, 215, 0],
+        getPosition: (data: { coordatainates: any }) => data.coordatainates,
+        getSize: (data: any) => 5,
+        getColor: (data: any) => [255, 215, 0],
       }),
       new IconLayer({
         id: 'location-layer',
@@ -135,11 +137,11 @@ const Navigation = () => {
         pickable: true,
         iconAtlas: 'https://img.icons8.com/ios-filled/100/000000/cycling-mountain-bike.png',
         iconMapping: ICON_MAPPING,
-        getIcon: d => 'marker',
+        getIcon: (data: any) => 'marker',
         sizeScale: 8,
-        getPosition: d => d.coordinates,
-        getSize: d => 8,
-        getColor: d => [0, 0, 0],
+        getPosition: (data: { coordatainates: any }) => data.coordatainates,
+        getSize: (data: any) => 8,
+        getColor: (data: any) => [0, 0, 0],
       }),
     ]
 
@@ -191,4 +193,4 @@ const Navigation = () => {
     )
   }
 }
-export default Navigation;
+export default Navigation
