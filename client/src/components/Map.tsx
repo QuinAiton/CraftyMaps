@@ -9,7 +9,6 @@ import BreweriesList from './BreweriesList'
 const geolocateStyle = {
   right: 10,
   top: 20,
-  position: 'absolute',
   margin: 10,
 }
 
@@ -35,10 +34,11 @@ const Map = () => {
 
   const selectBreweryHandler = useCallback((longitude: number, latitude: number) => {
     setViewport({
+      ...viewport,
       longitude,
       latitude,
       zoom: 15,
-      transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+      // transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
     })
   }, [])
 
@@ -73,19 +73,13 @@ const Map = () => {
   return (
     <ReactMapGL
       className={Styles.Container}
-      {...viewport}
       ref={mapRef}
       mapStyle="mapbox://styles/mapbox/light-v10"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport: viewPortTypes) => setViewport(viewport)}
+      {...viewport}
     >
       <SmallNav />
-      {/* <GeolocateControl
-        style={geolocateControlStyle}
-        positionOptions={{ enableHighAccuracy: true }}
-        trackUserLocation={true}
-        auto
-      /> */}
       <GeolocateControl
         style={geolocateStyle}
         positionOptions={{ enableHighAccuracy: true }}

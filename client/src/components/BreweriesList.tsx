@@ -15,7 +15,6 @@ type PropTypes = {
 
 const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
   const [open, setOpen] = useState(false)
-
   const { breweries, selectedRoute, setSelectedRoute } = useStore()
 
   //Adds Breweries to Optimized Route Filters out Duplicates

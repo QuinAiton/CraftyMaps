@@ -157,7 +157,7 @@ const Navigation = () => {
     }
 
     return (
-      <DeckGL ContextProvider={MapContext.Provider} initialViewState={initialState} controller={true} layers={layers}>
+      <DeckGL initialViewState={initialState} controller={true} layers={layers}>
         <StaticMap
           mapStyle="mapbox://styles/mapbox/light-v10"
           mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
@@ -168,7 +168,7 @@ const Navigation = () => {
           preventStyleDiffing={true}
         />
         <SmallNav />
-        <MapContext.Consumer>
+        {/* <MapContext.Consumer>
           {outerContext => {
             return (
               <MapContext.Provider
@@ -185,7 +185,7 @@ const Navigation = () => {
               </MapContext.Provider>
             )
           }}
-        </MapContext.Consumer>
+        </MapContext.Consumer> */}
         <TripStats />
         <FaDirections />
         <Directions directions={directions} />

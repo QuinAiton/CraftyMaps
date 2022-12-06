@@ -2,7 +2,7 @@ import React from 'react'
 import useStore from '../hooks/store'
 import Styles from '../Styles/TripStats.module.scss'
 const TripStats = () => {
-  const tripInfo = useStore((state: { routes: { trips: any[] } }) => state.routes.trips[0])
+  const tripInfo = useStore((state: any) => state.routes.trips[0])
   const distance = (tripInfo.distance / 1000).toFixed(1)
   const time = (tripInfo.duration / 60 ** 2).toFixed(1)
 
