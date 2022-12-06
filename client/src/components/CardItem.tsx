@@ -4,6 +4,18 @@ import { BsCheckCircle } from 'react-icons/bs'
 import { FaUndo } from 'react-icons/fa'
 import breweryTypes from '../types/breweryTypes'
 
+type propTypes = {
+  key: string
+  id: string
+  name: string
+  location: string
+  category: string
+  coordinates: [number, number]
+  isRouted: boolean
+  addRouteHandler: (id: string) => void
+  removeRouteHandler: (id: string) => void
+  onSelectBrewery: (lng: number, lat: number) => void
+}
 const CardItem = ({
   name,
   location,
@@ -14,7 +26,7 @@ const CardItem = ({
   addRouteHandler,
   removeRouteHandler,
   onSelectBrewery,
-}: breweryTypes) => {
+}: propTypes) => {
   return (
     <div className={Styles.container} onClick={() => onSelectBrewery(...coordinates)}>
       <h4>{name}</h4>

@@ -1,4 +1,4 @@
-import create from "zustand";
+import create from 'zustand'
 
 // Creates Object Store
 const useStore = create(set => ({
@@ -34,6 +34,6 @@ const useStore = create(set => ({
     set(() => ({
       directions,
     })),
-}));
+}))
 
-export default useStore;
+export default useStore

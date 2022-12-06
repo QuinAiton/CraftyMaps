@@ -1,11 +1,11 @@
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import { StaticMap, MapContext, GeolocateControl } from 'react-map-gl'
-import { PathLayer, IconLayer } from '@deck.gl/layers'
+import { StaticMap, MapContext, GeolocateControl, MapRef } from 'react-map-gl'
+import { PathLayer, IconLayer } from '@deck.gl/layers/typed'
 import { useLocation } from 'react-router-dom'
 import { FaDirections } from 'react-icons/fa'
 import axios from 'axios'
-import DeckGL from 'deck.gl'
+import DeckGL from '@deck.gl/react/typed'
 import useStore from '../hooks/store'
 import Loading from './Loading'
 import SmallNav from './SmallNav'
@@ -14,19 +14,19 @@ import Directions from './Directions'
 
 // types
 import BreweryTypes from '../types/breweryTypes'
+import storeTypes from '../types/storeTypes'
 const geolocateControlStyle = {
   right: 10,
   top: 20,
 }
 
 const Navigation = () => {
-  const { routes, setRoutes, currentLocation, setCurrentLocation, directions, setDirections } = useStore()
+  const { routes, setRoutes, currentLocation, setCurrentLocation, directions, setDirections }: storeTypes = useStore()
 
   const [isLoading, setLoading] = useState(true)
-  const location = useLocation()
-  const mapRef = useRef()
-
-  const getCoordinates = useMemo(() => {
+  const location: any = useLocation()
+  const mapRef = React.useRef<MapRef>(null)
+  const getCoordinates = () => {
     const breweries = location.state.selectedRoute
     const coords = []
     if (currentLocation) coords.push(currentLocation)
@@ -34,16 +34,16 @@ const Navigation = () => {
       coords.push(pub.coordinates)
     })
     return coords.join(';')
-  }, [location, currentLocation])
+  }
 
-  const getDirections = useMemo(() => {
+  const getDirections = () => {
     const flattenDirections = routes?.trips[0]?.legs
     let steps: string[] = []
     flattenDirections.forEach((leg: { steps: any }) => {
       steps = [...steps, ...leg?.steps]
     })
     setDirections(steps)
-  }, [routes])
+  }
 
   useEffect(() => {
     // gets users Current Location
@@ -173,8 +173,8 @@ const Navigation = () => {
             return (
               <MapContext.Provider
                 value={{
-                  map: mapRef.current ? mapRef.current.getMap() : null,
                   ...outerContext,
+                  map: mapRef.current ? mapRef.current.getMap() : null,
                 }}
               >
                 <GeolocateControl

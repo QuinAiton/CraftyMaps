@@ -8,8 +8,10 @@ import { useHistory } from 'react-router'
 import { IoArrowDownCircle } from 'react-icons/io5'
 import breweryTypes from '../types/breweryTypes'
 type PropTypes = {
-  onSelectBrewery: () => void
+  onSelectBrewery: any
 }
+
+// TODO: figure out solution so proptype is not any
 
 const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
   const [open, setOpen] = useState(false)
@@ -18,18 +20,22 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 
   //Adds Breweries to Optimized Route Filters out Duplicates
   const addRouteHandler = (id: string) => {
-    const selectedBrewery = breweries.find((pub: { id: string }) => pub.id === id)
+    const selectedBrewery: any = breweries.find((pub: { id: string }) => pub.id === id)
     if (!selectedRoute.find((pub: { id: string }) => pub.id === id)) {
       setSelectedRoute([...selectedRoute, selectedBrewery])
     }
-    selectedBrewery.isRouted = true
+    if (selectedBrewery) {
+      selectedBrewery.isRouted = true
+    }
   }
 
   const removeRouteHandler = (id: string) => {
     const filteredRoute = selectedRoute.filter((route: { id: string }) => route.id !== id)
     setSelectedRoute([...filteredRoute])
-    const selectedBrewery = breweries.find((pub: { id: string }) => pub.id === id)
-    selectedBrewery.isRouted = false
+    const selectedBrewery: any = breweries.find((pub: { id: string }) => pub.id === id)
+    if (selectedBrewery) {
+      selectedBrewery.isRouted = true
+    }
   }
 
   // Sends Chosen Routes Through link Tag

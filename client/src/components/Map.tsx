@@ -3,7 +3,7 @@ import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import ReactMapGL, { Marker, GeolocateControl, FlyToInterpolator, MapRef } from 'react-map-gl'
 import React, { useState, useRef, useMemo, useCallback } from 'react'
 import SmallNav from './SmallNav'
-import useStore from '../hooks/store.jsx'
+import useStore from '../hooks/store'
 import BreweriesList from './BreweriesList'
 
 const geolocateStyle = {
@@ -11,6 +11,15 @@ const geolocateStyle = {
   top: 20,
   position: 'absolute',
   margin: 10,
+}
+
+type viewPortTypes = {
+  width: string
+  height: string
+  latitude: number
+  longitude: number
+  zoom: number
+  pitch: number
 }
 
 const Map = () => {
@@ -22,15 +31,7 @@ const Map = () => {
     longitude: -123.38106,
     zoom: 10.5,
     pitch: 50,
-    // transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
   })
-
-  type FlyToInterpolatorProps = {
-    curve?: number
-    speed?: number
-    screenSpeed?: number
-    maxDuration?: number
-  }
 
   const selectBreweryHandler = useCallback((longitude: number, latitude: number) => {
     setViewport({
@@ -38,7 +39,6 @@ const Map = () => {
       latitude,
       zoom: 15,
       transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
-      transitionDuration: 'auto',
     })
   }, [])
 
@@ -77,16 +77,7 @@ const Map = () => {
       ref={mapRef}
       mapStyle="mapbox://styles/mapbox/light-v10"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      onViewportChange={(
-        viewport: React.SetStateAction<{
-          width: string
-          height: string
-          latitude: number
-          longitude: number
-          zoom: number
-          pitch: number
-        }>
-      ) => setViewport(viewport)}
+      onViewportChange={(viewport: viewPortTypes) => setViewport(viewport)}
     >
       <SmallNav />
       {/* <GeolocateControl
