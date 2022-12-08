@@ -28,20 +28,22 @@ const CardItem = ({
   onSelectBrewery,
 }: propTypes) => {
   return (
-    <div className={Styles.container} onClick={() => onSelectBrewery(...coordinates)}>
-      <h4>{name}</h4>
-      <p>{category}</p>
-      <p>{location}</p>
-      {isRouted ? (
-        <div className={Styles.addUndo}>
-          <BsCheckCircle style={{ color: 'green', fontSize: '25px' }} />
-          <FaUndo style={{ color: 'red', fontSize: '18px' }} onClick={() => removeRouteHandler(id)} />
-        </div>
-      ) : (
-        <button onClick={() => addRouteHandler(id)}>Add to Route</button>
-      )}
-    </div>
-  )
+		<div className={Styles.container} onClick={() => onSelectBrewery(...coordinates)}>
+			<h4>{name}</h4>
+			<p className="p">{category}</p>
+			<p className="p">{location}</p>
+			{isRouted ? (
+				<div className={Styles.addUndo}>
+					<BsCheckCircle style={{ color: 'green', fontSize: '25px' }} />
+					<FaUndo style={{ color: 'red', fontSize: '18px' }} onClick={() => removeRouteHandler(id)} />
+				</div>
+			) : (
+				<button className="button" onClick={() => addRouteHandler(id)}>
+					Add to Route
+				</button>
+			)}
+		</div>
+	);
 }
 
 export default CardItem

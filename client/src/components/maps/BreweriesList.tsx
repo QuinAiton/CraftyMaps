@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import useStore from '../../hooks/store'
+import useStore from '../hooks/store';
 import CardItem from './CardItem'
 import Styles from '../../Styles/Breweries.module.scss'
 import { GiCellarBarrels } from 'react-icons/gi'

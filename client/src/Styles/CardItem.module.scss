@@ -16,7 +16,7 @@ $purple: #523d9e;
   border-radius: 25px 25px 5px 5px;
 }
 
-p {
+.p {
   font-size: 0.8rem;
 }
 
@@ -27,7 +27,7 @@ p {
   gap: 20px;
 }
 
-button {
+.button {
   padding: 10px 20px;
   border-radius: 10px;
   border: 1px solid $purple;
@@ -35,7 +35,7 @@ button {
   background-color: $purple;
 }
 
-button:hover {
+.button:hover {
   background-color: $purple;
   color: $primary;
 }
