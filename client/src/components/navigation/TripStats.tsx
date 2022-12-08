@@ -1,6 +1,6 @@
 import React from 'react'
-import useStore from '../hooks/store'
-import Styles from '../Styles/TripStats.module.scss'
+import useStore from '../../hooks/store'
+import Styles from '../../Styles/TripStats.module.scss'
 const TripStats = () => {
   const tripInfo = useStore((state: any) => state.routes.trips[0])
   const distance = (tripInfo.distance / 1000).toFixed(1)

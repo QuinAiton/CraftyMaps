@@ -1,9 +1,9 @@
-import Styles from '../Styles/Map.module.scss'
+import Styles from '../../Styles/Map.module.scss'
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import ReactMapGL, { Marker, GeolocateControl, FlyToInterpolator, MapRef } from 'react-map-gl'
 import React, { useState, useRef, useMemo, useCallback } from 'react'
-import SmallNav from './SmallNav'
-import useStore from '../hooks/store'
+import SmallNav from '../shared/SmallNav'
+import useStore from '../../hooks/store'
 import BreweriesList from './BreweriesList'
 
 const geolocateStyle = {

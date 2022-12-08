@@ -1,5 +1,5 @@
 import React from 'react'
-import Styles from '../Styles/SmallNav.module.scss'
+import Styles from '../../Styles/SmallNav.module.scss'
 const SmallNav = () => {
   return (
     <nav className={Styles.container} role="navigation">

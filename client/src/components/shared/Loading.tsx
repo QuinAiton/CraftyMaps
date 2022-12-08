@@ -1,4 +1,4 @@
-import Styles from '../Styles/Loading.module.scss'
+import Styles from '../../Styles/Loading.module.scss'
 import React from 'react'
 import { SiOpenstreetmap } from 'react-icons/si'
 

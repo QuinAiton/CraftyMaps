@@ -1,8 +1,8 @@
 import React from 'react'
-import Styles from '../Styles/CardItem.module.scss'
+import Styles from '../../Styles/CardItem.module.scss'
 import { BsCheckCircle } from 'react-icons/bs'
 import { FaUndo } from 'react-icons/fa'
-import breweryTypes from '../types/breweryTypes'
+import breweryTypes from '../../types/breweryTypes'
 
 type propTypes = {
   key: string

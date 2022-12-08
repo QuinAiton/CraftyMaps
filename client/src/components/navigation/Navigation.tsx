@@ -6,15 +6,16 @@ import { useLocation } from 'react-router-dom'
 import { FaDirections } from 'react-icons/fa'
 import axios from 'axios'
 import DeckGL from '@deck.gl/react/typed'
-import useStore from '../hooks/store'
-import Loading from './Loading'
-import SmallNav from './SmallNav'
+import useStore from '../../hooks/store'
+import Loading from '../shared/Loading'
+import SmallNav from '../shared/SmallNav'
 import TripStats from './TripStats'
 import Directions from './Directions'
 
 // types
-import BreweryTypes from '../types/breweryTypes'
-import storeTypes from '../types/storeTypes'
+import BreweryTypes from '../../types/breweryTypes'
+import storeTypes from '../../types/storeTypes'
+import { Control } from 'mapbox-gl'
 const geolocateControlStyle = {
   right: 10,
   top: 20,

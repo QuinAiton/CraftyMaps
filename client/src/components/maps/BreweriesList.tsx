@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import useStore from '../hooks/store'
+import useStore from '../../hooks/store'
 import CardItem from './CardItem'
-import Styles from '../Styles/Breweries.module.scss'
+import Styles from '../../Styles/Breweries.module.scss'
 import { GiCellarBarrels } from 'react-icons/gi'
 import { FaRoute } from 'react-icons/fa'
 import { useHistory } from 'react-router'
 import { IoArrowDownCircle } from 'react-icons/io5'
-import breweryTypes from '../types/breweryTypes'
+import breweryTypes from '../../types/breweryTypes'
 type PropTypes = {
   onSelectBrewery: any
 }
@@ -15,6 +15,7 @@ type PropTypes = {
 
 const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
   const [open, setOpen] = useState(false)
+
   const { breweries, selectedRoute, setSelectedRoute } = useStore()
 
   //Adds Breweries to Optimized Route Filters out Duplicates
@@ -69,12 +70,10 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
   return (
     <div className={Styles.container}>
       <div className={Styles.buttonContainer}>
-        <button className={Styles.route} onClick={handleRouteSubmit}>
-          <FaRoute className={Styles.routeIcon} />
-        </button>
+        <FaRoute className={Styles.roundIcon} onClick={handleRouteSubmit} />
         <div>
           {!open ? (
-            <GiCellarBarrels className={Styles.open} onClick={() => setOpen(!open)} />
+            <GiCellarBarrels className={Styles.roundIcon} onClick={() => setOpen(!open)} />
           ) : (
             <div>
               <IoArrowDownCircle className={Styles.close} onClick={() => setOpen(!open)} />
