@@ -52,11 +52,17 @@ $purple: #523d9e;
   left: 0;
 }
 
-.open {
-  color: $purple;
+.roundIcon {
+  color: $primary;
   z-index: 2;
-  font-size: 3em;
-  margin-left: 20px;
+  max-height:30px;
+  max-width: 30px;
+  min-width: 30px;
+  min-height: 30px;
+  background: $purple;
+  border-radius: 50%;
+  padding: 15px;
+  margin-left: 10px;
 }
 
 .close {
@@ -64,8 +70,8 @@ $purple: #523d9e;
   z-index: 2;
   position: relative;
   font-size: 4em;
-  bottom: 42vh;
-  left: 95vw;
+  bottom: 40vh;
+  left: 85%;
 }
 
 .breweries {
@@ -90,7 +96,10 @@ $purple: #523d9e;
   }
 }
 
-.route {
+.roundButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   width: 47px;
   height: 50px;
@@ -99,8 +108,9 @@ $purple: #523d9e;
   z-index: 2;
   margin-left: 20px;
 
-  .routeIcon {
-    color: $primary;
-    font-size: 20px;
-  }
+}
+
+.routeIcon {
+  color: $primary;
+  font-size: 20px;
 }

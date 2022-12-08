@@ -1,50 +1,56 @@
-import Styles from "../Styles/Map.module.scss";
-import "react-map-gl-geocoder/dist/mapbox-gl-geocoder.css";
-import ReactMapGL, {
-  Marker,
-  GeolocateControl,
-  FlyToInterpolator,
-} from "react-map-gl";
-import React, { useState, useRef, useMemo, useCallback } from "react";
-import SmallNav from "./SmallNav";
-import useStore from "../store";
-import Breweries from "./Breweries";
+import Styles from '../../Styles/Map.module.scss'
+import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import ReactMapGL, { Marker, GeolocateControl, FlyToInterpolator, MapRef } from 'react-map-gl'
+import React, { useState, useRef, useMemo, useCallback } from 'react'
+import SmallNav from '../shared/SmallNav'
+import useStore from '../../hooks/store'
+import BreweriesList from './BreweriesList'
 
-const geolocateControlStyle = {
+const geolocateStyle = {
   right: 10,
   top: 20,
-};
+  margin: 10,
+}
+
+type viewPortTypes = {
+  width: string
+  height: string
+  latitude: number
+  longitude: number
+  zoom: number
+  pitch: number
+}
 
 const Map = () => {
   // Handles Map Configuration
   const [viewport, setViewport] = useState({
-    width: "100vw",
-    height: "100vh",
+    width: '100vw',
+    height: '100vh',
     latitude: 48.447119,
     longitude: -123.38106,
     zoom: 10.5,
     pitch: 50,
-  });
+  })
 
-  const selectBreweryHandler = useCallback((longitude, latitude) => {
+  const selectBreweryHandler = useCallback((longitude: number, latitude: number) => {
     setViewport({
+      ...viewport,
       longitude,
       latitude,
       zoom: 15,
-      transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
-      transitionDuration: "auto",
-    });
-  }, []);
+      // transitionInterpolator: new FlyToInterpolator({ speed: 1.2 }),
+    })
+  }, [])
 
   // brings in breweries from store
-  const breweries = useStore(state => state.breweries);
+  const breweries = useStore((state: { breweries: any }) => state.breweries)
 
   // Creates markers for each Pub
   // Only rerender markers if breweries has changed
-  const mapRef = useRef();
+  const mapRef = React.useRef<MapRef>(null)
   const markers = useMemo(
     () =>
-      breweries.map(pub => (
+      breweries.map((pub: { id: React.Key | null | undefined; coordinates: number[]; icon: string | undefined }) => (
         <Marker
           key={pub.id}
           longitude={pub.coordinates[0]}
@@ -62,28 +68,27 @@ const Map = () => {
         </Marker>
       )),
     [breweries, viewport.zoom]
-  );
+  )
 
   return (
     <ReactMapGL
       className={Styles.Container}
-      {...viewport}
       ref={mapRef}
       mapStyle="mapbox://styles/mapbox/light-v10"
       mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
-      onViewportChange={viewport => setViewport(viewport)}
+      onViewportChange={(viewport: viewPortTypes) => setViewport(viewport)}
+      {...viewport}
     >
       <SmallNav />
       <GeolocateControl
-        style={geolocateControlStyle}
+        style={geolocateStyle}
         positionOptions={{ enableHighAccuracy: true }}
         trackUserLocation={true}
-        auto
       />
       {markers}
-      <Breweries onSelectBrewery={selectBreweryHandler} />
+      <BreweriesList onSelectBrewery={selectBreweryHandler} />
     </ReactMapGL>
-  );
-};
+  )
+}
 
-export default Map;
+export default Map

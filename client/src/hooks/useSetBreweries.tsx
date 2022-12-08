@@ -1,14 +1,9 @@
-import "./Styles/App.scss";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { useEffect } from "react";
-import useStore from "./store";
-import axios from "axios";
-import Navigation from "./components/Navigation";
-import Map from "./components/Map";
-import breweries from "./components/breweries";
-
-function App() {
-  const setBreweries = useStore(state => state.setBreweries);
+import React from 'react'
+import useStore from './store'
+import BreweryTypes from '../types/breweryTypes'
+import localBreweries from '../components/fixtures/breweries'
+export default function useSetBreweries() {
+  const setBreweries = useStore((state: { setBreweries: any }) => state.setBreweries)
   // const url = `https://api.foursquare.com/v2/venues/search?client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}&v=20210501&ll=48.4271,-123.3681&categoryId=50327c8591d4c4b30a586d5d`;
 
   // Fetches Brewery Data, Cleans it, Sets State
@@ -36,34 +31,17 @@ function App() {
   //     });
   // }, [setBreweries, url]);
 
-  const cleanBreweries = [];
-  breweries.forEach(pub => {
+  const cleanBreweries: BreweryTypes[] = []
+  localBreweries.forEach(pub => {
     cleanBreweries.push({
       id: pub.id,
       name: pub.name,
       category: pub.type,
       icon: pub.icon,
-      location: pub.address,
+      location: pub.address.join(', '),
       coordinates: [pub.lng, pub.lat],
       isRouted: false,
-    });
-  });
-  setBreweries(cleanBreweries);
-
-  return (
-    <Router>
-      <div className="App-Container">
-        <Switch>
-          <Route path="/" exact>
-            <Map />
-          </Route>
-          <Route path="/navigation">
-            <Navigation />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  );
+    })
+  })
+  setBreweries(cleanBreweries)
 }
-
-export default App;
