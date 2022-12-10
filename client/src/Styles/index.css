@@ -3,3 +3,23 @@
 @import "tailwindcss/components";
 
 @import "tailwindcss/utilities";
+
+
+@layer components {
+  .primaryButton {
+    background-color:#523d9e;
+    padding: 15px 25px;
+    border-radius:10px;
+    color:white;
+  }
+  .ghostButtonPrimary {
+    background-color:#fff;
+    padding: 15px 25px;
+    border-radius:10px;
+    color:#523d9e;
+    border: 1px solid #523d9e
+
+    
+  }
+
+}
