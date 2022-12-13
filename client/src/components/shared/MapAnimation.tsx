@@ -16,7 +16,6 @@ export default function MapAnimation() {
 				renderer: 'svg',
 				loop: false,
 				autoplay: true,
-				// path to your animation file, place it inside public folder
 				path: '/assets/mapAnimation.json',
 			});
 

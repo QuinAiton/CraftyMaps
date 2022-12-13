@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import '../Styles/index.css';
 import useSetBreweries from '../components/hooks/useSetBreweries';
-import 'antd/dist/reset.css';
 export default function MyApp({ Component, pageProps }) {
 	useSetBreweries();
 	return (

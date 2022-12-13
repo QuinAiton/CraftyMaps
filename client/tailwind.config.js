@@ -35,6 +35,7 @@ module.exports = {
 			},
 			colors: {
 				customPurple: '#523d9e',
+				customWhite: '#f6f6f4',
 			},
 			typography: {
 				'3xl': {
