@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import useStore from '../hooks/store';
-import CardItem from './CardItem'
-import Styles from '../../Styles/Breweries.module.scss';
+import CardItem from './CardItem';
 import CustomRoundButton from '../shared/CustomRoundButton';
-import { Button } from '@nextui-org/react';
 import { GiCellarBarrels } from 'react-icons/gi';
 import { FaRoute, FaTimes } from 'react-icons/fa';
 import { useHistory } from 'react-router';
@@ -16,7 +14,6 @@ type PropTypes = {
 
 const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 	const [open, setOpen] = useState(false);
-
 	const { breweries, selectedRoute, setSelectedRoute } = useStore();
 
 	//Adds Breweries to Optimized Route Filters out Duplicates
