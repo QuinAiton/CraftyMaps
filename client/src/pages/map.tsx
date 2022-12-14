@@ -1,10 +1,14 @@
 import Styles from '../Styles/Map.module.scss';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 import 'react-map-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import ReactMapGL, { Marker, GeolocateControl, FlyToInterpolator, MapRef } from 'react-map-gl';
 import React, { useState, useRef, useMemo, useCallback } from 'react';
 import SmallNav from '../components/shared/SmallNav';
 import useStore from '../components/hooks/store';
-import BreweriesList from '../components/maps/BreweriesList';
+const BreweriesList = dynamic(() => import('../components/maps/BreweriesList'), {
+	suspense: false,
+});
 
 const geolocateStyle = {
 	right: 10,

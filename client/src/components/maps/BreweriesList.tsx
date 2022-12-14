@@ -32,7 +32,7 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 		setSelectedRoute([...filteredRoute]);
 		const selectedBrewery: any = breweries.find((pub: { id: string }) => pub.id === id);
 		if (selectedBrewery) {
-			selectedBrewery.isRouted = true;
+			selectedBrewery.isRouted = false;
 		}
 	};
 
@@ -53,6 +53,7 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 			<CardItem
 				key={pub.id}
 				id={pub.id}
+				icon={pub.icon}
 				name={pub.name}
 				location={pub.location}
 				category={pub.category}
@@ -67,7 +68,7 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 
 	return (
 		<div className=" w-full h-full flex flex-col">
-			<div className=" relative top-2/3 left-2 space-y-2 z-10 w-14">
+			<div className=" relative top-2/3 left-2 space-y-2 w-14">
 				{selectedRoute.length > 0 && (
 					<CustomRoundButton onClick={handleRouteSubmit} icon={<FaRoute className="text-customWhite text-3xl" />} />
 				)}
@@ -78,15 +79,18 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 					/>
 				)}
 			</div>
+
 			<div>
-				<div className={`${open && 'absolute top-1/3'} ${!open && 'fixed top-[1000px]'} transition-all`}>
+				<div className={`${open && 'absolute top-1/2'} ${!open && 'fixed top-[1000px]'} transition-all`}>
 					<div className="absolute right-1 -top-3">
 						<CustomRoundButton
 							icon={<FaTimes className="text-customWhite text-3xl" />}
 							onClick={() => setOpen(!open)}
 						/>
 					</div>
-					<ul className="m-2">{breweryCards}</ul>
+					<div className="overflow-scroll h-[500px] ">
+						<ul className="m-2 ">{breweryCards}</ul>
+					</div>
 				</div>
 			</div>
 		</div>

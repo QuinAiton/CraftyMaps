@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import MapAnimation from '../components/shared/MapAnimation';
 import Loading from '../components/shared/Loading';
-import { useState } from 'react';
 export default function index() {
 	const router = useRouter();
 	const [showLoading, setShowLoading] = useState(false);
+
 	const homeRouteHandler = () => {
 		setShowLoading(true);
 		setTimeout(() => {
