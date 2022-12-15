@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import useStore from '../hooks/store';
+import React, { useState } from 'react';
+import useStore from '../../hooks/store';
+import Link from 'next/link';
 import CardItem from './CardItem';
 import CustomRoundButton from '../shared/CustomRoundButton';
 import { GiCellarBarrels } from 'react-icons/gi';
@@ -36,17 +37,6 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 		}
 	};
 
-	// Sends Chosen Routes Through link Tag
-	let history = useHistory();
-	const handleRouteSubmit = () => {
-		history.push({
-			pathname: '/navigation',
-			state: {
-				selectedRoute,
-			},
-		});
-	};
-
 	// Create BreweryCards
 	const breweryCards = breweries.map((pub: breweryTypes) => {
 		return (
@@ -68,10 +58,17 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 
 	return (
 		<div className=" w-full h-full flex flex-col">
-			<div className=" relative top-2/3 left-2 space-y-2 w-14">
-				{selectedRoute.length > 0 && (
-					<CustomRoundButton onClick={handleRouteSubmit} icon={<FaRoute className="text-customWhite text-3xl" />} />
-				)}
+			<div className=" relative top-[70%] left-2 space-y-2 w-14">
+				<Link
+					href={{
+						pathname: '/navigation',
+					}}
+				>
+					<CustomRoundButton
+						icon={<FaRoute className="text-customWhite text-3xl" />}
+						disabled={selectedRoute.length > 0 ? false : true}
+					/>
+				</Link>
 				{!open && (
 					<CustomRoundButton
 						onClick={() => setOpen(!open)}
@@ -97,4 +94,3 @@ const BreweriesList = ({ onSelectBrewery }: PropTypes) => {
 	);
 };
 export default BreweriesList;
-0;

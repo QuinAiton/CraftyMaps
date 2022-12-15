@@ -1,7 +1,7 @@
 import Styles from '../Styles/Route.module.scss'
 import React from 'react'
 import { BsPlusCircleFill } from 'react-icons/bs'
-import useStore from '../hooks/store';
+import useStore from '../../hooks/store';
 import Directions from './Directions'
 
 const Route = () => {

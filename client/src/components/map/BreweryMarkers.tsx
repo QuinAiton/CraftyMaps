@@ -1,16 +1,19 @@
 import { ReactNode, useMemo } from 'react';
-import useStore from '../hooks/store';
+import useStore from '../../hooks/store';
 import { Marker } from 'react-map-gl';
 
 type pubTypes = { coordinates: number[]; id: string; icon: string };
 
-export default function BreweryMarkers({ viewport }: any) {
+export default function BreweryMarkers({ viewport, setShowPopup }: any) {
 	const breweries = useStore((state) => state.breweries);
 
 	const breweryMarkers = useMemo(
 		() =>
 			breweries.map((pub: pubTypes) => (
 				<Marker
+					onClick={() => {
+						setShowPopup(pub);
+					}}
 					key={pub.id}
 					longitude={pub.coordinates[0]}
 					latitude={pub.coordinates[1]}
