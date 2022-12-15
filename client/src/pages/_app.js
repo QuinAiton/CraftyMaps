@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
 import Head from 'next/head';
 import '../Styles/index.css';
 import useSetBreweries from '../components/hooks/useSetBreweries';
+
 export default function MyApp({ Component, pageProps }) {
 	useSetBreweries();
 	return (

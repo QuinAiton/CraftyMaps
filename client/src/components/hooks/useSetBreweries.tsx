@@ -1,6 +1,7 @@
 import useGetData from './useGetData';
 import useStore from './store';
 import BreweryTypes from '../../../types/breweryTypes';
+import { useEffect } from 'react';
 // import localBreweries from '../fixtures/breweries';
 
 export default function useSetBreweries() {

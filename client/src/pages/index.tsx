@@ -18,7 +18,7 @@ export default function index() {
 			{showLoading && <Loading />}
 			<div className="container grid grid-rows-3 w-screen h-screen bg-white">
 				<div className="w-full text-center p-5 row-span-1  flex flex-col justify-center items-center">
-					<h1 className="text-6xl text-customPurple font-bitter font-bold ">Crafty Maps</h1>
+					<h1 className="text-5xl text-customPurple font-bitter font-bold ">Crafty Maps</h1>
 					<h4 className="text-xl text-customPurple font-bitter font-semibold">Your Adventure Starts here.</h4>
 				</div>
 				<div className="bg-customPurple h-full row-span-2 rounded-t-[75px] flex flex-col justify-evenly">
